@@ -10,9 +10,15 @@
 			<?php endforeach; ?>
 		</ul>
 		<?php endif; ?>
-
 		<div class="save-area">
 			Test
 		</div>
 	</section>
+	<div class="wp-filter" id="optionskit-navigation">
+		<ul class="filter-links">
+			<li>
+				<a href="#">Test</a>
+			</li>
+		</ul>
+	</div>
 </section>
