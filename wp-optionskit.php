@@ -56,6 +56,13 @@ class OptionsKit {
 	private $page_title;
 
 	/**
+	 * Actions links for the options panel header.
+	 *
+	 * @var array
+	 */
+	private $action_buttons = array();
+
+	/**
 	 * Get things started.
 	 *
 	 * @param boolean $slug
@@ -70,6 +77,33 @@ class OptionsKit {
 		$this->func = str_replace( '-', '_', $slug );
 
 		$this->hooks();
+
+	}
+
+	/**
+	 * Set the title for the page.
+	 *
+	 * @param string $page_title
+	 * @return void
+	 */
+	public function set_page_title( $page_title = '' ) {
+		$this->page_title = $page_title;
+	}
+
+	/**
+	 * Add action button to the header.
+	 *
+	 * @param array $args
+	 * @return void
+	 */
+	public function add_action_button( $args ) {
+
+		$defaults = array(
+			'title' => '',
+			'url'   => '',
+		);
+
+		$this->action_buttons[] = wp_parse_args( $args, $defaults );
 
 	}
 

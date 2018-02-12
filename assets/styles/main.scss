@@ -1,0 +1,30 @@
+body.optionskit-panel-page {
+	#wpcontent {
+		padding-left: 0;
+	}
+	.wrap {
+		margin: 0;
+	}
+}
+#optionskit-topbar {
+	padding: 15px 20px;
+	border-bottom: 1px solid #e2e4e7;
+	background: #fff;
+	h1 {
+		margin: 0;
+		padding: 0;
+		font-weight: 500;
+		display: inline-block;
+	}
+	ul {
+		display: inline-block;
+		margin: 0 0 0 20px;
+		li {
+			display: inline-block;
+			margin-bottom: 0;
+		}
+	}
+	.save-area {
+		float: right;
+	}
+}
