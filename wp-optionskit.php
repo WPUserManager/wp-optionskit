@@ -82,6 +82,7 @@ class OptionsKit {
 
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ), 10 );
 		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 100 );
 
 	}
 
@@ -127,6 +128,19 @@ class OptionsKit {
 		}
 
 		return $classes;
+
+	}
+
+	/**
+	 * Load require styles and scripts for the options panel.
+	 *
+	 * @return void
+	 */
+	public function enqueue_scripts() {
+
+		$url_path = plugin_dir_url( __FILE__ );
+
+		wp_enqueue_script( $this->func . '_vue', $url_path . 'dist/scripts/main.js', array(), false, true );
 
 	}
 
