@@ -368,6 +368,10 @@ class OptionsKit {
 			$doing_section = true;
 		}
 
+		if ( ! wp_verify_nonce( $_POST['optionskit_saved'], $this->func . '_optionskit_save' ) ) {
+			return;
+		}
+
 		$setting_types = $this->get_registered_settings_types();
 		$input         = $input ? $input : array();
 

@@ -65,6 +65,7 @@
 	</section>
 	<table class="form-table">
 		<?php
+			wp_nonce_field( $this->func . '_optionskit_save', 'optionskit_saved' );
 			settings_fields( $this->func . '_settings' );
 			do_action( $this->func . '_settings_tab_top_' . $active_tab . '_' . $section );
 			do_settings_sections( $this->func . '_settings_' . $active_tab . '_' . $section );
