@@ -488,7 +488,7 @@ class OptionsKit {
 
 		$html  = '<input type="hidden"' . $name . ' value="-1" />';
 		$html .= '<input type="checkbox" id="' . $this->func . '_settings[' . $args['id'] . ']"' . $name . ' value="1" ' . $checked . '/>&nbsp;';
-		$html .= '<span class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></span>';
+		$html .= '<p class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></p>';
 
 		echo apply_filters( $this->func . '_after_setting_output', $html, $args );
 
@@ -541,29 +541,7 @@ class OptionsKit {
 			)
 		);
 
-		$html = '<br /><span class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></span>';
-
-		echo apply_filters( $this->func . '_after_setting_output', $html, $args );
-
-	}
-
-	/**
-	 * HTML callback.
-	 *
-	 * @param array $args
-	 * @return void
-	 */
-	public function html_callback( $args ) {
-		global ${$this->func . '_options'};
-
-		if ( isset( ${$this->func . '_options'}[ $args['id'] ] ) ) {
-			$value = ${$this->func . '_options'}[ $args['id'] ];
-		} else {
-			$value = isset( $args['std'] ) ? $args['std'] : '';
-		}
-
-		$html  = '<textarea class="large-text" cols="50" rows="5" id="' . $this->func . '_settings[' . $args['id'] . ']" name="' . $this->func . '_settings[' . $args['id'] . ']">' . esc_textarea( stripslashes( $value ) ) . '</textarea>&nbsp;';
-		$html .= '<span class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></span>';
+		$html = '<br /><p class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></p>';
 
 		echo apply_filters( $this->func . '_after_setting_output', $html, $args );
 
@@ -674,7 +652,7 @@ class OptionsKit {
 
 		}
 		$html .= '</select>&nbsp;';
-		$html .= '<span class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></span>';
+		$html .= '<p class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></p>';
 
 		echo apply_filters( $this->func . '_after_setting_output', $html, $args );
 
@@ -700,7 +678,7 @@ class OptionsKit {
 		$size     = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
 
 		$html  = '<input type="text" class="' . $size . '-text" id="' . $this->func . '_settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) )  . '"' . $readonly . '/>&nbsp;';
-		$html .= '<span class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></span>';
+		$html .= '<p class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></p>';
 
 		echo apply_filters( $this->func . '_after_setting_output', $html, $args );
 
@@ -722,7 +700,7 @@ class OptionsKit {
 		}
 
 		$html  = '<textarea class="large-text" cols="50" rows="5" id="' . $this->func . '_settings[' . $args['id'] . ']" name="' . $this->func . '_settings[' . $args['id'] . ']">' . esc_textarea( stripslashes( $value ) ) . '</textarea>&nbsp;';
-		$html .= '<span class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></span>';
+		$html .= '<p class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></p>';
 
 		echo apply_filters( $this->func . '_after_setting_output', $html, $args );
 	}
@@ -744,7 +722,7 @@ class OptionsKit {
 	 * @return void
 	 */
 	public function missing_callback( $args ) {
-		printf( __( 'The callback function used for the <strong>%s</strong> setting is missing.', 's214-settings' ), $args['id'] );
+		echo 'Callback function missing.';
 	}
 
 	/**
