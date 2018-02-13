@@ -358,10 +358,6 @@ class OptionsKit {
 	public function settings_sanitize( $input = array() ) {
 		global ${$this->func . '_options'};
 
-		if ( ! ${$this->func . '_options'} ) {
-			${$this->func . '_options'} = array();
-		}
-
 		$doing_section = false;
 
 		if ( ! empty( $_POST['_wp_http_referer'] ) ) {
