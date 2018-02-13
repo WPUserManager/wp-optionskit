@@ -200,11 +200,94 @@ class OptionsKit {
 	}
 
 	/**
+	 * Retrieve the default tab.
+	 * The default tab, will be the first available tab.
+	 *
+	 * @return string
+	 */
+	private function get_default_tab() {
+
+		$default = '';
+		$tabs    = $this->get_settings_tabs();
+
+		if ( is_array( $tabs ) ) {
+			$default = key( $tabs );
+		}
+
+		return $default;
+
+	}
+
+	/**
+	 * Retrieve the currently active tab.
+	 *
+	 * @return string
+	 */
+	private function get_active_tab() {
+
+		return isset( $_GET['tab'] ) && array_key_exists( $_GET['tab'], $this->get_settings_tabs() ) ? $_GET['tab'] : $this->get_default_tab();
+
+	}
+
+	/**
+	 * Retrieve the settings tabs.
+	 *
+	 * @return array
+	 */
+	private function get_settings_tabs() {
+		return apply_filters( $this->func . '_settings_tabs', array() );
+	}
+
+	/**
+	 * Retrieve sections for the currently selected tab.
+	 *
+	 * @param mixed $tab
+	 * @return mixed
+	 */
+	private function get_settings_tab_sections( $tab = false ) {
+
+		$tabs     = false;
+		$sections = $this->get_registered_settings_sections();
+
+		if ( $tab && ! empty( $sections[ $tab ] ) ) {
+			$tabs = $sections[ $tab ];
+		} elseif ( $tab ) {
+			$tabs = false;
+		}
+
+		return $tabs;
+
+	}
+
+	/**
+	 * Retrieve the registered sections.
+	 *
+	 * @return array
+	 */
+	private function get_registered_settings_sections() {
+
+		$sections = apply_filters( $this->func . '_registered_settings_sections', array() );
+
+		return $sections;
+
+	}
+
+	/**
 	 * Renders the settings page.
 	 *
 	 * @return void
 	 */
 	public function render_settings_page() {
+
+		$active_tab = $this->get_active_tab();
+		$sections   = $registered_sections = $this->get_settings_tab_sections( $active_tab );
+		$key        = 'main';
+
+		if( is_array( $sections ) ) {
+			$key = key( $sections );
+		}
+
+		$section = isset( $_GET['section'] ) && ! empty( $registered_sections ) && array_key_exists( $_GET['section'], $registered_sections ) ? $_GET['section'] : $key;
 
 		ob_start();
 		include_once 'includes/views/settings-page.php';

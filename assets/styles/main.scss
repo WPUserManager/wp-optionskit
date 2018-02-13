@@ -5,6 +5,34 @@ body.optionskit-panel-page {
 	.wrap {
 		margin: 0;
 	}
+	.submit {
+		margin-left: 20px;
+		display: inline-block;
+	}
+}
+.optionskit-subnav {
+	background: #edeff0;
+	border-bottom: 1px solid #e2e4e7;
+	ul {
+		margin: 0;
+		padding: 15px 20px;
+		li {
+			display: inline-block;
+			margin-right: 0;
+			margin-bottom: 0;
+			span {
+				opacity: 0.5;
+				display: inline-block;
+				margin: 0 10px;
+			}
+			a {
+				text-decoration: none;
+				&.current {
+					font-weight: bold;
+				}
+			}
+		}
+	}
 }
 #optionskit-topbar {
 	padding: 15px 20px;
@@ -26,6 +54,11 @@ body.optionskit-panel-page {
 	}
 	.save-area {
 		float: right;
+		.submit {
+			display: inline-block;
+			margin: 0;
+			padding: 0;
+		}
 	}
 }
 #optionskit-navigation {
