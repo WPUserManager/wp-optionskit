@@ -421,7 +421,7 @@ class OptionsKit {
 		}
 
 		if ( $doing_section ) {
-			add_settings_error( $this->slug . '-notices', '', 'Settings Updated', 'updated' );
+			add_settings_error( $this->slug . '-notices', '', 'Settings Updated', 'hide-notice' );
 		}
 
 		return $output;

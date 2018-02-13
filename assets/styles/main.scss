@@ -43,6 +43,9 @@ body.optionskit-panel-page {
 		padding: 0;
 		font-weight: 500;
 		display: inline-block;
+		+ .hide-notice {
+			display: none;
+		}
 	}
 	ul {
 		display: inline-block;
