@@ -1,4 +1,4 @@
-<form method="post" action="options.php">
+<form method="post" action="options.php" class="optionskit-form">
 	<section id="optionskit-panel" class="optionskit-panel-container wrap">
 		<section id="optionskit-topbar">
 			<h1><?php echo esc_html( $this->page_title ); ?></h1>
