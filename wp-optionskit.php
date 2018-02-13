@@ -19,7 +19,7 @@
  * @copyright  (c) 2018 Alessandro Tesoro
  * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  * @package    wp-optionskit
-*/
+ */
 
 namespace TDP;
 
@@ -134,12 +134,14 @@ class OptionsKit {
 	 */
 	public function add_settings_page() {
 
-		$menu = apply_filters( $this->func . '_menu', array(
-			'parent'     => 'options-general.php',
-			'page_title' => 'Settings Panel',
-			'menu_title' => 'Settings Panel',
-			'capability' => 'manage_options',
-		) );
+		$menu = apply_filters(
+			$this->func . '_menu', array(
+				'parent'     => 'options-general.php',
+				'page_title' => 'Settings Panel',
+				'menu_title' => 'Settings Panel',
+				'capability' => 'manage_options',
+			)
+		);
 
 		$page = add_submenu_page(
 			$menu['parent'],
@@ -354,10 +356,9 @@ class OptionsKit {
 	 * @return string $input The sanitized value
 	 */
 	public function settings_sanitize( $input = array() ) {
-
 		global ${$this->func . '_options'};
 
-		if( ! ${$this->func . '_options'} ) {
+		if ( ! ${$this->func . '_options'} ) {
 			${$this->func . '_options'} = array();
 		}
 
@@ -385,11 +386,13 @@ class OptionsKit {
 				continue;
 			}
 			// Bypass non-setting settings.
-			$non_setting_types = apply_filters( $this->func . '_non_setting_types', array(
-				'header',
-				'descriptive_text',
-				'hook',
-			) );
+			$non_setting_types = apply_filters(
+				$this->func . '_non_setting_types', array(
+					'header',
+					'descriptive_text',
+					'hook',
+				)
+			);
 
 			if ( in_array( $type, $non_setting_types ) ) {
 				continue;
@@ -484,7 +487,7 @@ class OptionsKit {
 		global ${$this->func . '_options'};
 
 		$name    = ' name="' . $this->func . '_settings[' . $args['id'] . ']"';
-		$checked = isset( ${$this->func . '_options'}[$args['id']] ) ? checked( 1, ${$this->func . '_options'}[$args['id']], false ) : '';
+		$checked = isset( ${$this->func . '_options'}[ $args['id'] ] ) ? checked( 1, ${$this->func . '_options'}[ $args['id'] ], false ) : '';
 
 		$html  = '<input type="hidden"' . $name . ' value="-1" />';
 		$html .= '<input type="checkbox" id="' . $this->func . '_settings[' . $args['id'] . ']"' . $name . ' value="1" ' . $checked . '/>&nbsp;';
@@ -562,7 +565,7 @@ class OptionsKit {
 				if ( isset( ${$this->func . '_options'}[ $args['id'] ][ $key ] ) ) {
 					$enabled = $option;
 				} else {
-					$enabled = isset( $args['std'][ $key ] ) ? $args['std'][ $key ] : NULL;
+					$enabled = isset( $args['std'][ $key ] ) ? $args['std'][ $key ] : null;
 				}
 
 				$html .= '<input name="' . $this->func . '_settings[' . $args['id'] . '][' . $key . ']" id="' . $this->func . '_settings[' . $args['id'] . '][' . $key . ']" type="checkbox" value="' . $option . '" ' . checked( $option, $enabled, false ) . ' />&nbsp;';
@@ -677,7 +680,7 @@ class OptionsKit {
 		$readonly = $args['readonly'] === true ? ' readonly="readonly"' : '';
 		$size     = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
 
-		$html  = '<input type="text" class="' . $size . '-text" id="' . $this->func . '_settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) )  . '"' . $readonly . '/>&nbsp;';
+		$html  = '<input type="text" class="' . $size . '-text" id="' . $this->func . '_settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . $readonly . '/>&nbsp;';
 		$html .= '<p class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></p>';
 
 		echo apply_filters( $this->func . '_after_setting_output', $html, $args );
