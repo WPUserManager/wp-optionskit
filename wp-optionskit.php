@@ -203,7 +203,8 @@ class OptionsKit {
 		$url_path = plugin_dir_url( __FILE__ );
 
 		if ( $this->is_options_page() ) {
-			wp_enqueue_script( $this->func . '_opkdebug', $url_path . 'dist/scripts/main.js', array(), false, true );
+			wp_enqueue_script( $this->func . '_vuejs', 'https://cdn.jsdelivr.net/npm/vue', array(), false, true );
+			wp_enqueue_script( $this->func . '_opkdebug', 'http://localhost:8080/dist/build.js', array(), false, true );
 		}
 
 	}
