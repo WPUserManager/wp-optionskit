@@ -2,6 +2,7 @@
 	<section id="optionskit-panel" class="optionskit-panel-container wrap">
 		<options-kit-header></options-kit-header>
 		<options-kit-navigation></options-kit-navigation>
+		<router-view></router-view>
   	</section>
 </template>
 
