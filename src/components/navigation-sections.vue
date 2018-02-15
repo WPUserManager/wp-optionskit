@@ -29,3 +29,17 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+.optionskit-subnav {
+	a.router-link-exact-active {
+		font-weight: bold;
+		text-decoration: underline;
+		&:focus {
+			color: #0073aa;
+			box-shadow: none;
+		}
+	}
+}
+</style>
+

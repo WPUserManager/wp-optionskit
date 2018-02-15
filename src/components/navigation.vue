@@ -18,3 +18,20 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+#optionskit-navigation {
+	ul {
+		li {
+			&.router-link-exact-active,
+			&.parent-active {
+				a {
+					box-shadow: none;
+					border-bottom: 4px solid #0085ba;
+					color: #0085ba;
+				}
+			}
+		}
+	}
+}
+</style>
