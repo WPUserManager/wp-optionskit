@@ -7,7 +7,7 @@
             </li>
 		</ul>
 		<div class="save-area">
-			<input type="submit" class="button button-primary" value="Save Changes">
+			<input type="submit" class="button button-primary" :value="saveLabel">
 		</div>
 	</section>
 </template>
@@ -19,6 +19,7 @@ export default {
 		return {
 			pageTitle: this.$optionsKitSettings.page_title,
 			actionButtons: this.$optionsKitSettings.buttons,
+			saveLabel: this.$optionsKitSettings.labels['save']
 		}
 	}
 }

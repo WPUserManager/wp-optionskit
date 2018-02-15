@@ -63,6 +63,13 @@ class OptionsKit {
 	private $action_buttons = array();
 
 	/**
+	 * Setup labels for translation and modification.
+	 *
+	 * @var array
+	 */
+	private $labels = array();
+
+	/**
 	 * Get things started.
 	 *
 	 * @param boolean $slug
@@ -73,9 +80,9 @@ class OptionsKit {
 			return;
 		}
 
-		$this->slug = $slug;
-		$this->func = str_replace( '-', '_', $slug );
-
+		$this->slug   = $slug;
+		$this->func   = str_replace( '-', '_', $slug );
+		$this->labels = $this->get_labels();
 		$GLOBALS[ $this->func . '_options' ] = get_option( $this->func . '_settings', true );
 
 		$this->hooks();
@@ -124,6 +131,21 @@ class OptionsKit {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_filter( $this->func . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ) );
 		add_action( 'admin_init', array( $this, 'process_actions' ) );
+
+	}
+
+	/**
+	 * Retrieve labels.
+	 *
+	 * @return void
+	 */
+	private function get_labels() {
+
+		$defaults = array(
+			'save' => 'Save Changes',
+		);
+
+		return apply_filters( $this->func . '_labels', $defaults );
 
 	}
 
@@ -207,8 +229,9 @@ class OptionsKit {
 			$options_panel_settings = array(
 				'page_title' => esc_html( $this->page_title ),
 				'buttons'    => $this->action_buttons,
+				'labels'     => $this->labels,
 				'tabs'       => $this->get_settings_tabs(),
-				'sections'   => $this->get_registered_settings_sections()
+				'sections'   => $this->get_registered_settings_sections(),
 			);
 			wp_localize_script( $this->func . '_opk', 'optionsKitSettings', $options_panel_settings );
 		}
