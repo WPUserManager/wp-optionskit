@@ -126,12 +126,24 @@ class OptionsKit {
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ), 10 );
 		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 100 );
+		add_action( 'rest_api_init', array( $this, 'register_rest_controller' ) );
 
 		// Register settings.
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_filter( $this->func . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ) );
 		add_action( 'admin_init', array( $this, 'process_actions' ) );
 
+	}
+	
+	public function register_rest_controller() {
+		require_once 'includes/class-wpok-rest-server.php';
+		$controller = new \TDP\WPOK_Rest_Server();
+		$controller->register_routes();
+
+	}
+
+	private function get_rest_url() {
+		return get_rest_url( null, '/wpok/v1/' );
 	}
 
 	/**
@@ -227,6 +239,8 @@ class OptionsKit {
 		if ( $this->is_options_page() ) {
 			wp_enqueue_script( $this->func . '_opk', 'http://localhost:8080/app.js', array(), false, true );
 			$options_panel_settings = array(
+				'rest_url'   => esc_url( $this->get_rest_url() ),
+				'nonce'      => wp_create_nonce( 'wp_rest' ),
 				'page_title' => esc_html( $this->page_title ),
 				'buttons'    => $this->action_buttons,
 				'labels'     => $this->labels,
