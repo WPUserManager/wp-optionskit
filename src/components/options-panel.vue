@@ -51,12 +51,17 @@ export default {
 	},
 	methods: {
 		submit() {
-			this.form.submit('post', this.$optionsKitSettings.rest_url + 'record/admin_email' , this.model, this.$optionsKitSettings.nonce )
+			this.form.submit(
+				'post',
+				this.$optionsKitSettings.rest_url + 'record/admin_email',
+				this.model,
+				this.$optionsKitSettings.nonce
+			)
 			.then(data => {
                 console.log(data);
             }).catch(error => {
                 console.log('yo error')
-            });
+            })
 		}
 	}
 }
