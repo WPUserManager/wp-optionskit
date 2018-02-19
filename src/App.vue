@@ -153,8 +153,7 @@ body.optionskit-panel-page {
 	ul {
 		li {
 			a {
-				&.router-link-exact-active,
-				&.parent-active {
+				&.router-link-active {
 					box-shadow: none;
 					border-bottom: 4px solid #0085ba;
 					color: #0085ba;
