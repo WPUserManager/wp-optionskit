@@ -54,7 +54,7 @@ Object.keys(optionsKitSettings.tabs).forEach(function (key) {
 					sections: childRoutes
 				},
 				fields: {
-					field: 'test_' + path
+					fields: optionsKitSettings.settings[ path.substring(1) ]
 				}
 			},
 			children: childRoutes

@@ -1,6 +1,21 @@
 <template>
 	<section id="optionskit-panel" class="optionskit-panel-container wrap">
-		<options-kit-header></options-kit-header>
+		
+		<!-- Header -->
+		<section id="optionskit-topbar">
+			<h1>{{pageTitle}}</h1>
+			<ul class="title-links" v-if="actionButtons.length > 0">
+				<li v-for="link in actionButtons" :key="link.url">
+					<a :href="link.url" class="page-title-action">{{link.title}}</a>
+				</li>
+			</ul>
+			<div class="save-area">
+				<input type="submit" class="button button-primary" :value="saveLabel">
+			</div>
+		</section>
+		<!-- end header -->
+
+		<!-- Navigation -->
 		<div class="optionskit-navigation-wrapper">
 			<div class="wp-filter" id="optionskit-navigation">
 				<ul class="filter-links">
@@ -10,15 +25,15 @@
 				</ul>
 			</div>
 		</div>
+		<!-- end navigation -->
+
 		<router-view></router-view>
 		<router-view name="fields" v-if="isMainTab"></router-view>
-  	</section>
+  	
+	  </section>
 </template>
 
 <script>
-import OptionsKitHeader from './components/header'
-import OptionsKitNavigation from './components/navigation'
-
 export default {
 	name: 'App',
 	components: {
@@ -27,6 +42,9 @@ export default {
 	},
 	data() {
 		return {
+			pageTitle: this.$optionsKitSettings.page_title,
+			actionButtons: this.$optionsKitSettings.buttons,
+			saveLabel: this.$optionsKitSettings.labels['save'],
 			items: [],
 			mainItems: [],
 			isMainTab: Boolean,
