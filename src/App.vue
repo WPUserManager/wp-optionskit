@@ -1,8 +1,17 @@
 <template>
 	<section id="optionskit-panel" class="optionskit-panel-container wrap">
 		<options-kit-header></options-kit-header>
-		<options-kit-navigation></options-kit-navigation>
+		<div class="optionskit-navigation-wrapper">
+			<div class="wp-filter" id="optionskit-navigation">
+				<ul class="filter-links">
+					<li v-for="item in items" :key="item.path">
+						<router-link :to="item.path" v-if="item.name">{{item.name}}</router-link>
+					</li>
+				</ul>
+			</div>
+		</div>
 		<router-view></router-view>
+		<router-view name="fields" v-if="isMainTab"></router-view>
   	</section>
 </template>
 
@@ -15,6 +24,46 @@ export default {
 	components: {
 		OptionsKitHeader,
 		OptionsKitNavigation
+	},
+	data() {
+		return {
+			items: [],
+			mainItems: [],
+			isMainTab: Boolean
+		}
+	},
+	created() {
+		this.detectMainTab()
+		/**
+		 * Get all routes and add them to an array.
+		 */
+		this.$router.options.routes.forEach(route => {
+			if( route.name ) {
+				this.items.push({
+					name: route.name,
+					path: route.path,
+					children: route.children
+				})
+			}
+		})
+	},
+	watch:{
+        '$route'() {
+			this.detectMainTab()
+		}
+	},
+	methods: {
+		/**
+		 * Detect if the main tab is active or not.
+		 * This is used to show the appropriate fields wrapper.
+		 */
+		detectMainTab() {
+			if ( typeof this.$router.currentRoute.meta.id === 'undefined') {
+				this.isMainTab = false
+			} else {
+				this.isMainTab = true
+			}
+		}
 	}
 }
 </script>
@@ -98,6 +147,20 @@ body.optionskit-panel-page {
 	}
 	.description {
 		font-style: normal;
+	}
+}
+#optionskit-navigation {
+	ul {
+		li {
+			a {
+				&.router-link-exact-active,
+				&.parent-active {
+					box-shadow: none;
+					border-bottom: 4px solid #0085ba;
+					color: #0085ba;
+				}
+			}
+		}
 	}
 }
 </style>

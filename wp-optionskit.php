@@ -70,6 +70,13 @@ class OptionsKit {
 	private $labels = array();
 
 	/**
+	 * Holds the settings for this panel.
+	 *
+	 * @var array
+	 */
+	private $settings = array();
+
+	/**
 	 * Get things started.
 	 *
 	 * @param boolean $slug
@@ -127,11 +134,6 @@ class OptionsKit {
 		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 100 );
 		add_action( 'rest_api_init', array( $this, 'register_rest_controller' ) );
-
-		// Register settings.
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
-		add_filter( $this->func . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ) );
-		add_action( 'admin_init', array( $this, 'process_actions' ) );
 
 	}
 	
@@ -246,6 +248,7 @@ class OptionsKit {
 				'labels'     => $this->labels,
 				'tabs'       => $this->get_settings_tabs(),
 				'sections'   => $this->get_registered_settings_sections(),
+				'settings'   => $this->get_registered_settings()
 			);
 			wp_localize_script( $this->func . '_opk', 'optionsKitSettings', $options_panel_settings );
 		}
@@ -326,467 +329,23 @@ class OptionsKit {
 	}
 
 	/**
+	 * Add settings to the panel.
+	 *
+	 * @param string $where
+	 * @param array $settings
+	 * @return void
+	 */
+	public function add_settings( $where, $settings ) {
+		$this->settings[ $where ] = $settings;
+	}
+	
+	/**
 	 * Retrieve the settings for this options panel.
 	 *
 	 * @return array
 	 */
 	private function get_registered_settings() {
-		return apply_filters( $this->func . '_registered_settings', array() );
-	}
-
-	/**
-	 * Register settings for this options panel.
-	 *
-	 * @return void
-	 */
-	public function register_settings() {
-
-		if ( get_option( $this->func . '_settings' ) == false ) {
-			add_option( $this->func . '_settings' );
-		}
-		$registered_settigns = $this->get_registered_settings();
-		foreach ( $registered_settigns as $tab => $sections ) {
-			foreach ( $sections as $section => $settings ) {
-				$section_tabs = $this->get_settings_tab_sections( $tab );
-				if ( ! is_array( $section_tabs ) || ! array_key_exists( $section, $section_tabs ) ) {
-					$section  = 'main';
-					$settings = $sections;
-				}
-				add_settings_section(
-					$this->func . '_settings_' . $tab . '_' . $section,
-					__return_null(),
-					'__return_false',
-					$this->func . '_settings_' . $tab . '_' . $section
-				);
-				foreach ( $settings as $option ) {
-					if ( empty( $option['id'] ) ) {
-						continue;
-					}
-					$name = isset( $option['name'] ) ? $option['name'] : '';
-					add_settings_field(
-						$this->func . '_settings[' . $option['id'] . ']',
-						$name,
-						function_exists( $this->func . '_' . $option['type'] . '_callback' ) ? $this->func . '_' . $option['type'] . '_callback' : ( method_exists( $this, $option['type'] . '_callback' ) ? array( $this, $option['type'] . '_callback' ) : array( $this, 'missing_callback' ) ),
-						$this->func . '_settings_' . $tab . '_' . $section,
-						$this->func . '_settings_' . $tab . '_' . $section,
-						array(
-							'section'     => $section,
-							'id'          => isset( $option['id'] ) ? $option['id'] : null,
-							'desc'        => ! empty( $option['desc'] ) ? $option['desc'] : '',
-							'name'        => isset( $option['name'] ) ? $option['name'] : null,
-							'size'        => isset( $option['size'] ) ? $option['size'] : null,
-							'options'     => isset( $option['options'] ) ? $option['options'] : '',
-							'std'         => isset( $option['std'] ) ? $option['std'] : '',
-							'placeholder' => isset( $option['placeholder'] ) ? $option['placeholder'] : null,
-							'readonly'    => isset( $option['readonly'] ) ? $option['readonly'] : false,
-							'buttons'     => isset( $option['buttons'] ) ? $option['buttons'] : null,
-							'wpautop'     => isset( $option['wpautop'] ) ? $option['wpautop'] : null,
-							'teeny'       => isset( $option['teeny'] ) ? $option['teeny'] : null,
-							'tab'         => isset( $option['tab'] ) ? $option['tab'] : null,
-						)
-					);
-				}
-			}
-		}
-
-		register_setting( $this->func . '_settings', $this->func . '_settings', array( $this, 'settings_sanitize' ) );
-
-	}
-
-	/**
-	 * Settings sanitization.
-	 *
-	 * @param array $input The value entered in the field
-	 * @return string $input The sanitized value
-	 */
-	public function settings_sanitize( $input = array() ) {
-		global ${$this->func . '_options'};
-
-		$doing_section = false;
-
-		if ( ! empty( $_POST['_wp_http_referer'] ) ) {
-			$doing_section = true;
-		}
-
-		if ( ! wp_verify_nonce( $_POST['optionskit_saved'], $this->func . '_optionskit_save' ) ) {
-			return;
-		}
-
-		$setting_types = $this->get_registered_settings_types();
-		$input         = $input ? $input : array();
-
-		if ( $doing_section ) {
-			parse_str( $_POST['_wp_http_referer'], $referrer );
-			$tab     = isset( $referrer['tab'] ) ? $referrer['tab'] : $this->get_default_tab();
-			$section = isset( $referrer['section'] ) ? $referrer['section'] : 'main';
-			$input   = apply_filters( $this->func . '_settings_' . $tab . '_sanitize', $input );
-			$input   = apply_filters( $this->func . '_settings_' . $tab . '-' . $section . '_sanitize', $input );
-		}
-
-		$output = array_merge( ${$this->func . '_options'}, $input );
-
-		foreach ( $setting_types as $key => $type ) {
-			if ( empty( $type ) ) {
-				continue;
-			}
-			// Bypass non-setting settings.
-			$non_setting_types = apply_filters(
-				$this->func . '_non_setting_types', array(
-					'header',
-					'descriptive_text',
-					'hook',
-				)
-			);
-
-			if ( in_array( $type, $non_setting_types ) ) {
-				continue;
-			}
-
-			if ( array_key_exists( $key, $output ) ) {
-				$output[ $key ] = apply_filters( $this->func . '_settings_sanitize_' . $type, $output[ $key ], $key );
-				$output[ $key ] = apply_filters( $this->func . '_settings_sanitize', $output[ $key ], $key );
-			}
-
-			if ( $doing_section ) {
-				switch ( $type ) {
-					case 'checkbox':
-						if ( array_key_exists( $key, $input ) && $output[ $key ] === '-1' ) {
-							unset( $output[ $key ] );
-						}
-						break;
-					default:
-						if ( array_key_exists( $key, $input ) && empty( $input[ $key ] ) ) {
-							unset( $output[ $key ] );
-						}
-						break;
-				}
-			} else {
-				if ( empty( $input[ $key ] ) ) {
-					unset( $output[ $key ] );
-				}
-			}
-		}
-
-		if ( $doing_section ) {
-			add_settings_error( $this->slug . '-notices', '', 'Settings Updated', 'hide-notice' );
-		}
-
-		return $output;
-
-	}
-
-	/**
-	 * Flattens the set of registered settings and their type so we can easily sanitize all settings.
-	 *
-	 * @return array Key is the setting ID, value is the type of setting it is registered as
-	 */
-	private function get_registered_settings_types() {
-		$settings      = $this->get_registered_settings();
-		$setting_types = array();
-
-		foreach ( $settings as $tab ) {
-			foreach ( $tab as $section_or_setting ) {
-				// See if we have a setting registered at the tab level for backwards compatibility.
-				if ( is_array( $section_or_setting ) && array_key_exists( 'type', $section_or_setting ) ) {
-					$setting_types[ $section_or_setting['id'] ] = $section_or_setting['type'];
-					continue;
-				}
-				foreach ( $section_or_setting as $section => $section_settings ) {
-					$setting_types[ $section_settings['id'] ] = $section_settings['type'];
-				}
-			}
-		}
-
-		return $setting_types;
-
-	}
-
-	/**
-	 * Sanitize text fields.
-	 *
-	 * @param array $input
-	 * @return string
-	 */
-	public function sanitize_text_field( $input ) {
-		return trim( wp_strip_all_tags( $input, true ) );
-	}
-
-	/**
-	 * Header field callback.
-	 *
-	 * @param array $args
-	 * @return void
-	 */
-	public function header_callback( $args ) {
-		echo '<hr />';
-	}
-
-	/**
-	 * Checkbox callback.
-	 *
-	 * @param array $args
-	 * @return void
-	 */
-	public function checkbox_callback( $args ) {
-		global ${$this->func . '_options'};
-
-		$name    = ' name="' . $this->func . '_settings[' . $args['id'] . ']"';
-		$checked = isset( ${$this->func . '_options'}[ $args['id'] ] ) ? checked( 1, ${$this->func . '_options'}[ $args['id'] ], false ) : '';
-
-		$html  = '<input type="hidden"' . $name . ' value="-1" />';
-		$html .= '<input type="checkbox" id="' . $this->func . '_settings[' . $args['id'] . ']"' . $name . ' value="1" ' . $checked . '/>&nbsp;';
-		$html .= '<p class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></p>';
-
-		echo apply_filters( $this->func . '_after_setting_output', $html, $args );
-
-	}
-
-	/**
-	 * Descriptive text callback.
-	 *
-	 * @param array $args
-	 * @return void
-	 */
-	public function descriptive_text_callback( $args ) {
-		$html = wp_kses_post( $args['desc'] );
-		echo apply_filters( $this->func . '_after_setting_output', $html, $args );
-	}
-
-	/**
-	 * Editor callback.
-	 *
-	 * @param array $args
-	 * @return void
-	 */
-	public function editor_callback( $args ) {
-		global ${$this->func . '_options'};
-
-		if ( isset( ${$this->func . '_options'}[ $args['id'] ] ) ) {
-			$value = ${$this->func . '_options'}[ $args['id'] ];
-
-			if ( empty( $args['allow_blank'] ) && empty( $value ) ) {
-				$value = isset( $args['std'] ) ? $args['std'] : '';
-			}
-		} else {
-			$value = isset( $args['std'] ) ? $args['std'] : '';
-		}
-
-		$rows    = isset( $args['size'] ) ? $args['size'] : '10';
-		$wpautop = isset( $args['wpautop'] ) ? $args['wpautop'] : true;
-		$buttons = isset( $args['buttons'] ) ? $args['buttons'] : true;
-		$teeny   = isset( $args['teeny'] ) ? $args['teeny'] : false;
-
-		wp_editor(
-			$value,
-			$this->func . '_settings_' . $args['id'],
-			array(
-				'wpautop'       => $wpautop,
-				'media_buttons' => $buttons,
-				'textarea_name' => $this->func . '_settings[' . $args['id'] . ']',
-				'textarea_rows' => $rows,
-				'teeny'         => $teeny,
-			)
-		);
-
-		$html = '<br /><p class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></p>';
-
-		echo apply_filters( $this->func . '_after_setting_output', $html, $args );
-
-	}
-
-	/**
-	 * Multicheck field callback.
-	 *
-	 * @param array $args
-	 * @return void
-	 */
-	public function multicheck_callback( $args ) {
-		global ${$this->func . '_options'};
-
-		if ( ! empty( $args['options'] ) ) {
-			$html = '';
-			foreach ( $args['options'] as $key => $option ) {
-				if ( isset( ${$this->func . '_options'}[ $args['id'] ][ $key ] ) ) {
-					$enabled = $option;
-				} else {
-					$enabled = isset( $args['std'][ $key ] ) ? $args['std'][ $key ] : null;
-				}
-
-				$html .= '<input name="' . $this->func . '_settings[' . $args['id'] . '][' . $key . ']" id="' . $this->func . '_settings[' . $args['id'] . '][' . $key . ']" type="checkbox" value="' . $option . '" ' . checked( $option, $enabled, false ) . ' />&nbsp;';
-				$html .= '<label for="' . $this->func . '_settings[' . $args['id'] . '][' . $key . ']">' . $option . '</label><br />';
-			}
-			$html .= '<p class="description">' . $args['desc'] . '</p>';
-			echo apply_filters( $this->func . '_after_setting_output', $html, $args );
-		}
-
-	}
-
-	/**
-	 * Radio field callback.
-	 *
-	 * @param array $args
-	 * @return void
-	 */
-	public function radio_callback( $args ) {
-
-		global ${$this->func . '_options'};
-
-		if ( ! empty( $args['options'] ) ) {
-			$html = '';
-
-			foreach ( $args['options'] as $key => $option ) {
-				$checked = false;
-
-				if ( isset( ${$this->func . '_options'}[ $args['id'] ] ) && ${$this->func . '_options'}[ $args['id'] ] == $key ) {
-					$checked = true;
-				} elseif ( isset( $args['std'] ) && $args['std'] == $key && ! isset( ${$this->func . '_options'}[ $args['id'] ] ) ) {
-					$checked = true;
-				}
-
-				$html .= '<input name="' . $this->func . '_settings[' . $args['id'] . ']" id="' . $this->func . '_settings[' . $args['id'] . '][' . $key . ']" type="radio" value="' . $key . '" ' . checked( true, $checked, false ) . '/>&nbsp;';
-				$html .= '<label for="' . $this->func . '_settings[' . $args['id'] . '][' . $key . ']">' . $option . '</label><br />';
-
-			}
-
-			$html .= '<p class="description">' . $args['desc'] . '</p>';
-			echo apply_filters( $this->func . '_after_setting_output', $html, $args );
-
-		}
-
-	}
-
-	/**
-	 * Select callback.
-	 *
-	 * @param array $args
-	 * @return void
-	 */
-	public function select_callback( $args ) {
-		global ${$this->func . '_options'};
-
-		if ( isset( ${$this->func . '_options'}[ $args['id'] ] ) ) {
-			$value = ${$this->func . '_options'}[ $args['id'] ];
-		} else {
-			$value = isset( $args['std'] ) ? $args['std'] : '';
-		}
-
-		$placeholder = isset( $args['placeholder'] ) ? $args['placeholder'] : '';
-		$width       = isset( $args['size'] ) ? ' style="width: ' . $args['size'] . '"' : '';
-		$select2     = '';
-
-		if ( isset( $args['multiple'] ) && $args['multiple'] === true ) {
-			$html = '<select id="' . $this->func . '_settings[' . $args['id'] . ']" name="' . $this->func . '_settings[' . $args['id'] . '][]"' . $select2 . ' data-placeholder="' . $placeholder . '" multiple="multiple"' . $width . ' />';
-		} else {
-			$html = '<select id="' . $this->func . '_settings[' . $args['id'] . ']" name="' . $this->func . '_settings[' . $args['id'] . ']"' . $select2 . ' data-placeholder="' . $placeholder . '"' . $width . ' />';
-		}
-
-		foreach ( $args['options'] as $option => $name ) {
-			if ( isset( $args['multiple'] ) && $args['multiple'] === true ) {
-				if ( is_array( $value ) ) {
-					$selected = ( in_array( $option, $value ) ? 'selected="selected"' : '' );
-				} else {
-					$selected = '';
-				}
-			} else {
-				if ( is_string( $value ) ) {
-					$selected = selected( $option, $value, false );
-				} else {
-					$selected = '';
-				}
-			}
-
-			$html .= '<option value="' . $option . '" ' . $selected . '>' . $name . '</option>';
-
-		}
-		$html .= '</select>&nbsp;';
-		$html .= '<p class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></p>';
-
-		echo apply_filters( $this->func . '_after_setting_output', $html, $args );
-
-	}
-
-	/**
-	 * Text field callback.
-	 *
-	 * @param array $args
-	 * @return void
-	 */
-	public function text_callback( $args ) {
-		global ${$this->func . '_options'};
-
-		if ( isset( ${$this->func . '_options'}[ $args['id'] ] ) ) {
-			$value = ${$this->func . '_options'}[ $args['id'] ];
-		} else {
-			$value = isset( $args['std'] ) ? $args['std'] : '';
-		}
-
-		$name     = ' name="' . $this->func . '_settings[' . $args['id'] . ']"';
-		$readonly = $args['readonly'] === true ? ' readonly="readonly"' : '';
-		$size     = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
-
-		$html  = '<input type="text" class="' . $size . '-text" id="' . $this->func . '_settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . $readonly . '/>&nbsp;';
-		$html .= '<p class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></p>';
-
-		echo apply_filters( $this->func . '_after_setting_output', $html, $args );
-
-	}
-
-	/**
-	 * Textarea callback.
-	 *
-	 * @param array $args
-	 * @return void
-	 */
-	public function textarea_callback( $args ) {
-		global ${$this->func . '_options'};
-
-		if ( isset( ${$this->func . '_options'}[ $args['id'] ] ) ) {
-			$value = ${$this->func . '_options'}[ $args['id'] ];
-		} else {
-			$value = isset( $args['std'] ) ? $args['std'] : '';
-		}
-
-		$html  = '<textarea class="large-text" cols="50" rows="5" id="' . $this->func . '_settings[' . $args['id'] . ']" name="' . $this->func . '_settings[' . $args['id'] . ']">' . esc_textarea( stripslashes( $value ) ) . '</textarea>&nbsp;';
-		$html .= '<p class="description"><label for="' . $this->func . '_settings[' . $args['id'] . ']">' . $args['desc'] . '</label></p>';
-
-		echo apply_filters( $this->func . '_after_setting_output', $html, $args );
-	}
-
-	/**
-	 * Hook callback.
-	 *
-	 * @param array $args
-	 * @return void
-	 */
-	public function hook_callback( $args ) {
-		do_action( $this->func . '_' . $args['id'] );
-	}
-
-	/**
-	 * Missing callback.
-	 *
-	 * @param [type] $args
-	 * @return void
-	 */
-	public function missing_callback( $args ) {
-		echo 'Callback function missing.';
-	}
-
-	/**
-	 * Processes all actions sent via POST and GET by looking for the '$func-settings-action'
-	 * request and running do_action() to call the function.
-	 *
-	 * @return void
-	 */
-	public function process_actions() {
-		if ( ! isset( $_POST['submit'] ) ) {
-			if ( isset( $_POST[ $this->slug . '-settings-action' ] ) ) {
-				do_action( $this->func . '_settings_' . $_POST[ $this->slug . '-settings-action' ], $_POST );
-			}
-			if ( isset( $_GET[ $this->slug . '-settings-action' ] ) ) {
-				do_action( $this->func . '_settings_' . $_GET[ $this->slug . '-settings-action' ], $_GET );
-			}
-		}
+		return apply_filters( $this->func . '_registered_settings', $this->settings );
 	}
 
 	/**
@@ -795,21 +354,9 @@ class OptionsKit {
 	 * @return void
 	 */
 	public function render_settings_page() {
-
-		$active_tab = $this->get_active_tab();
-		$sections   = $registered_sections = $this->get_settings_tab_sections( $active_tab );
-		$key        = 'main';
-
-		if ( is_array( $sections ) ) {
-			$key = key( $sections );
-		}
-
-		$section = isset( $_GET['section'] ) && ! empty( $registered_sections ) && array_key_exists( $_GET['section'], $registered_sections ) ? $_GET['section'] : $key;
-
 		ob_start();
 		include_once 'includes/views/settings-page.php';
 		echo ob_get_clean();
-
 	}
 
 }

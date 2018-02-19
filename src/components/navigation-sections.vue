@@ -19,7 +19,7 @@ export default {
 		currentRoute: String,
 		currentRouteName: String
 	},
-	methods: {
+ 	methods: {
 		parentRoute () {
 			return '/' + this.currentRoute
 		},

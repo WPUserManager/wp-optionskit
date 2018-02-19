@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Subsections from '@/components/subsections'
 import OptionsPanel from '@/components/options-panel'
+import FieldsWrapper from '@/components/fields-wrapper'
 
 Vue.use(Router)
 
@@ -10,9 +12,9 @@ const OptionsTabs = []
 // to the first available tab.
 OptionsTabs.push(
 	{
-    	path: '/',
+		path: '/',
 		redirect: Object.keys(optionsKitSettings.tabs)[0]
-  	}
+	}
 )
 
 Object.keys(optionsKitSettings.tabs).forEach(function (key) {
@@ -26,12 +28,12 @@ Object.keys(optionsKitSettings.tabs).forEach(function (key) {
 	if (typeof (availableSections) !== 'undefined') {
 		Object.keys(availableSections).forEach(function (key) {
 			childRoutes.push({
-				path: key,
+				path: path + '/' + key,
 				name: availableSections[key],
-				meta: {
-					parent: path
-				},
-				component: OptionsPanel
+				component: FieldsWrapper,
+				props: {
+					field: availableSections[key]
+				}
 			})
 		})
 	}
@@ -41,11 +43,20 @@ Object.keys(optionsKitSettings.tabs).forEach(function (key) {
 		{
 			path: path,
 			name: optionsKitSettings.tabs[key],
-			component: OptionsPanel,
+			components: {
+				default: Subsections,
+				fields: FieldsWrapper
+			},
+			meta: {
+				id: path.substring(1)
+			},
 			props: {
-				sections: optionsKitSettings.sections[key] ? optionsKitSettings.sections[key] : false,
-				currentRoute: key,
-				currentRouteName: optionsKitSettings.tabs[key]
+				default: {
+					sections: childRoutes
+				},
+				fields: {
+					field: 'test_' + path
+				}
 			},
 			children: childRoutes
 		}

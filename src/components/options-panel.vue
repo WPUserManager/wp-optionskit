@@ -7,49 +7,38 @@
 		>
 		</options-kit-navigation-sections>
 
-		<form @submit.prevent="submit">
-			<input type="text" v-model="user.name">
-			<formit-field :field="fields[0]" :model="model"></formit-field>
-			<!-- Disable buttons using form.isPending -->
-            <button type="submit" :disabled="form.isPending">Submit</button>
-		</form>
+		<fields-wrapper :field="field"></fields-wrapper>
+		<router-view></router-view>
+
 	</section>
 </template>
 
 <script>
 import OptionsKitNavigationSections from './navigation-sections'
-import { Form } from 'vue-formit'
+import FieldsWrapper from './fields-wrapper'
+import Formit from 'vue-formit'
 
 export default {
 	name: 'OptionsKitPanel',
 	components: {
-		OptionsKitNavigationSections
+		OptionsKitNavigationSections,
+		FieldsWrapper
 	},
 	props: {
 		sections: [ Object, Boolean ],
 		currentRoute: String,
-		currentRouteName: String
-	},
-	mounted() {
-		console.log( this.$testingme )
+		currentRouteName: String,
+		isParentRoute: Boolean,
+		field: String
 	},
 	data() {
 		return {
-			user: {name: 'Sahib'},
-			model: {
-				name_test: 'h'
-			},
-			fields: [
-				{
-					key: 'name_test',
-					type: 'text',
-					required: true
-				}
-			],
-			form: new Form()
+			model: {},
+			fields: [],
+			form: new Formit()
 		}
 	},
-	methods: {
+ 	methods: {
 		submit() {
 			this.form.submit(
 				'post',
