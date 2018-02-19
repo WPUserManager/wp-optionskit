@@ -329,23 +329,12 @@ class OptionsKit {
 	}
 
 	/**
-	 * Add settings to the panel.
-	 *
-	 * @param string $where
-	 * @param array $settings
-	 * @return void
-	 */
-	public function add_settings( $where, $settings ) {
-		$this->settings[ $where ] = $settings;
-	}
-	
-	/**
 	 * Retrieve the settings for this options panel.
 	 *
 	 * @return array
 	 */
 	private function get_registered_settings() {
-		return apply_filters( $this->func . '_registered_settings', $this->settings );
+		return apply_filters( $this->func . '_registered_settings', array() );
 	}
 
 	/**

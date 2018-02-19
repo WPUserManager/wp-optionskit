@@ -31,7 +31,7 @@ Object.keys(optionsKitSettings.tabs).forEach(function (key) {
 				name: availableSections[key],
 				component: FieldsWrapper,
 				props: {
-					field: availableSections[key]
+					fields: optionsKitSettings.settings[key]
 				}
 			})
 		})

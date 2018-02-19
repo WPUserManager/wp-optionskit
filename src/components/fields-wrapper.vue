@@ -1,12 +1,10 @@
 <template>
 	<div class="optionskit-form-wrapper">
-
+		{{fields}}
 	</div>
 </template>
 
 <script>
-import Formit from 'vue-formit'
-
 export default {
 	name: 'fields-wrapper',
 	props: {
@@ -14,6 +12,14 @@ export default {
 		 * Contains the fields passed through the router.
 		 */
 		fields: {}
+	},
+	data() {
+		return {
+			type: 'formit-text'
+		}
+	},
+	mounted() {
+		console.log( this.fields )
 	}
 }
 </script>
