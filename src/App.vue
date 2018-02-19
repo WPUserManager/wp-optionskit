@@ -27,8 +27,12 @@
 		</div>
 		<!-- end navigation -->
 		
-		<router-view></router-view>
-		<router-view name="fields" v-if="isMainTab"></router-view>
+		<form @submit.prevent="submit" class="opk-form">
+			<router-view></router-view>
+			<router-view name="fields" v-if="isMainTab"></router-view>
+			<!-- Disable buttons using form.isPending -->
+            <button type="submit" :disabled="form.isPending" class="button button-primary">{{saveLabel}}</button>
+		</form>
   	
 	  </section>
 </template>
