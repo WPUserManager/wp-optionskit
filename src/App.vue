@@ -31,7 +31,7 @@
 			<router-view></router-view>
 			<router-view name="fields" v-if="isMainTab"></router-view>
 			<!-- Disable buttons using form.isPending -->
-            <button type="submit" :disabled="form.isPending" class="button button-primary">{{saveLabel}}</button>
+            <button type="submit" :disabled="form.isPending" class="button button-primary opk-submit">{{saveLabel}}</button>
 			<div class="spinner is-active opk-spinner" v-show="form.isPending"></div>
 		</form>
 	</section>
@@ -201,10 +201,13 @@ body.optionskit-panel-page {
 .opk-spinner {
 	float: none;
 }
-
 .optionskit-form-wrapper {
+	padding: 0 0 0 20px;
 	.description {
 		font-style: normal
 	}
+}
+#optionskit-panel .opk-submit {
+	margin-left: 20px;
 }
 </style>
