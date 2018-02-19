@@ -202,4 +202,9 @@ body.optionskit-panel-page {
 	float: none;
 }
 
+.optionskit-form-wrapper {
+	.description {
+		font-style: normal
+	}
+}
 </style>
