@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Subsections from '@/components/subsections'
-import OptionsPanel from '@/components/options-panel'
 import FieldsWrapper from '@/components/fields-wrapper'
 
 Vue.use(Router)

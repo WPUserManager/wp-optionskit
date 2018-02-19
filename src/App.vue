@@ -29,7 +29,7 @@ export default {
 		return {
 			items: [],
 			mainItems: [],
-			isMainTab: Boolean
+			isMainTab: Boolean,
 		}
 	},
 	created() {
