@@ -26,7 +26,7 @@
 			</div>
 		</div>
 		<!-- end navigation -->
-
+		
 		<router-view></router-view>
 		<router-view name="fields" v-if="isMainTab"></router-view>
   	
@@ -34,12 +34,10 @@
 </template>
 
 <script>
+import Formit from 'vue-formit'
+
 export default {
 	name: 'App',
-	components: {
-		OptionsKitHeader,
-		OptionsKitNavigation
-	},
 	data() {
 		return {
 			pageTitle: this.$optionsKitSettings.page_title,
@@ -48,6 +46,8 @@ export default {
 			items: [],
 			mainItems: [],
 			isMainTab: Boolean,
+			model: {},
+			form: new Formit()
 		}
 	},
 	created() {
@@ -81,6 +81,20 @@ export default {
 			} else {
 				this.isMainTab = true
 			}
+		},
+
+		submit() {
+			this.form.submit(
+				'post',
+				this.$optionsKitSettings.rest_url + 'record/whatevertest',
+				this.model,
+				this.$optionsKitSettings.nonce
+			)
+			.then(data => {
+                console.log(data);
+            }).catch(error => {
+                console.log('yo error')
+            })
 		}
 	}
 }
