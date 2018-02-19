@@ -1,40 +1,40 @@
 <template>
 	<section id="optionskit-panel" class="optionskit-panel-container wrap">
-		
-		<!-- Header -->
-		<section id="optionskit-topbar">
-			<h1>{{pageTitle}}</h1>
-			<ul class="title-links" v-if="actionButtons.length > 0">
-				<li v-for="link in actionButtons" :key="link.url">
-					<a :href="link.url" class="page-title-action">{{link.title}}</a>
-				</li>
-			</ul>
-			<div class="save-area">
-				<input type="submit" class="button button-primary" :value="saveLabel">
-			</div>
-		</section>
-		<!-- end header -->
-
-		<!-- Navigation -->
-		<div class="optionskit-navigation-wrapper">
-			<div class="wp-filter" id="optionskit-navigation">
-				<ul class="filter-links">
-					<li v-for="item in items" :key="item.path">
-						<router-link :to="item.path" v-if="item.name">{{item.name}}</router-link>
+		<form @submit.prevent="submit" class="opk-form">
+			<!-- Header -->
+			<section id="optionskit-topbar">
+				<h1>{{pageTitle}}</h1>
+				<ul class="title-links" v-if="actionButtons.length > 0">
+					<li v-for="link in actionButtons" :key="link.url">
+						<a :href="link.url" class="page-title-action">{{link.title}}</a>
 					</li>
 				</ul>
+				<div class="save-area">
+					<div class="spinner is-active opk-spinner" v-show="form.isPending"></div>
+					<!-- Disable buttons using form.isPending -->
+					<input type="submit" class="button button-primary" :disabled="form.isPending" :value="saveLabel">
+				</div>
+			</section>
+			<!-- end header -->
+
+			<!-- Navigation -->
+			<div class="optionskit-navigation-wrapper">
+				<div class="wp-filter" id="optionskit-navigation">
+					<ul class="filter-links">
+						<li v-for="item in items" :key="item.path">
+							<router-link :to="item.path" v-if="item.name">{{item.name}}</router-link>
+						</li>
+					</ul>
+				</div>
 			</div>
-		</div>
-		<!-- end navigation -->
-		
-		<form @submit.prevent="submit" class="opk-form">
+			<!-- end navigation -->
 			<router-view></router-view>
 			<router-view name="fields" v-if="isMainTab"></router-view>
 			<!-- Disable buttons using form.isPending -->
             <button type="submit" :disabled="form.isPending" class="button button-primary">{{saveLabel}}</button>
+			<div class="spinner is-active opk-spinner" v-show="form.isPending"></div>
 		</form>
-  	
-	  </section>
+	</section>
 </template>
 
 <script>
@@ -198,4 +198,8 @@ body.optionskit-panel-page {
 		}
 	}
 }
+.opk-spinner {
+	float: none;
+}
+
 </style>
