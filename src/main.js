@@ -10,7 +10,6 @@ Vue.use(VueFormitFields)
 Vue.config.productionTip = false
 // Import options panel configuration.
 Vue.prototype.$optionsKitSettings = optionsKitSettings
-Vue.prototype.$optionsKitIsMainSection = true
 
 /* eslint-disable no-new */
 new Vue({

@@ -7,7 +7,7 @@
 				</li>
 			</ul>
 		</div>
-		<router-view></router-view>
+		<router-view :model="model"></router-view>
 	</div>
 </template>
 
@@ -15,7 +15,14 @@
 export default {
 	name: 'OptionsKitSubSections',
 	props: {
-		sections: [Object, Array, Boolean]
+		/**
+		 * Stores the subsections if available.
+		*/
+		sections: [Object, Array, Boolean],
+		/**
+		 * Contains the data that will be sent to WordPres to save.
+		 */
+		model: {}
 	},
  }
 </script>

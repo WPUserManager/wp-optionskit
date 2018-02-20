@@ -28,8 +28,8 @@
 				</div>
 			</div>
 			<!-- end navigation -->
-			<router-view></router-view>
-			<router-view name="fields" v-if="isMainTab"></router-view>
+			<router-view :model="model"></router-view>
+			<router-view name="fields" v-if="isMainTab" :model="model"></router-view>
 			<!-- Disable buttons using form.isPending -->
             <button type="submit" :disabled="form.isPending" class="button button-primary opk-submit">{{saveLabel}}</button>
 			<div class="spinner is-active opk-spinner" v-show="form.isPending"></div>
@@ -50,7 +50,9 @@ export default {
 			items: [],
 			mainItems: [],
 			isMainTab: Boolean,
-			model: {},
+			model: {
+				test: 'ttttdfffffff'
+			},
 			form: new Formit()
 		}
 	},
@@ -186,15 +188,11 @@ body.optionskit-panel-page {
 	}
 }
 #optionskit-navigation {
-	ul {
-		li {
-			a {
-				&.router-link-active {
-					box-shadow: none;
-					border-bottom: 4px solid #0085ba;
-					color: #0085ba;
-				}
-			}
+	a {
+		&.router-link-active {
+			box-shadow: none;
+			border-bottom: 4px solid #0085ba;
+			color: #0085ba;
 		}
 	}
 }
