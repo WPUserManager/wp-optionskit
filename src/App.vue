@@ -50,9 +50,7 @@ export default {
 			items: [],
 			mainItems: [],
 			isMainTab: Boolean,
-			model: {
-				test: 'ttttdfffffff'
-			},
+			model: this.$optionsKitSettings.options,
 			form: new Formit()
 		}
 	},

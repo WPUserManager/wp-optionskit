@@ -338,6 +338,17 @@ class OptionsKit {
 		return apply_filters( $this->func . '_registered_settings', array() );
 	}
 
+	private function get_option( $key = '', $default = false ) {
+
+		global ${$this->func . '_options'};
+
+		$value = ! empty( ${$this->func . '_options'}[$key] ) ? ${$this->func . '_options'}[$key] : $default;
+		$value = apply_filters( $this->func . '_get_option', $value, $key, $default );
+
+		return apply_filters( $this->func . '_get_option_' . $key, $value, $key, $default );
+
+	}
+
 	/**
 	 * Retrieve stored options from WordPress and populate the model into Vue.js
 	 *
@@ -345,11 +356,23 @@ class OptionsKit {
 	 */
 	private function get_options() {
 
-		$settings = get_option( $this->func . '_settings' );
+		$settings = array();
 
+		/*
 		if ( empty( $settings ) ) {
 			$settings = array();
 			update_option( $this->func . '_settings', $settings );
+		}*/
+
+		// First retrieve all the registered settings.
+		$registered_settings = $this->get_registered_settings();
+		
+		// Loop through each available setting, and setup the setting into the array.
+		foreach ( $registered_settings as $setting_section ) {
+			foreach ( $setting_section as $setting ) {
+				$default = isset( $setting['std'] ) ? $setting['std'] : '';
+				$settings[ $setting['id'] ] = $this->get_option( $setting['id'], $default );
+			}
 		}
 
 		return apply_filters( $this->func . '_get_settings', $settings );
