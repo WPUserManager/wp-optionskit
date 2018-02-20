@@ -136,7 +136,7 @@ class OptionsKit {
 		add_action( 'rest_api_init', array( $this, 'register_rest_controller' ) );
 
 	}
-	
+
 	public function register_rest_controller() {
 		require_once 'includes/class-wpok-rest-server.php';
 		$controller = new \TDP\WPOK_Rest_Server();
@@ -338,11 +338,18 @@ class OptionsKit {
 		return apply_filters( $this->func . '_registered_settings', array() );
 	}
 
+	/**
+	 * Get a specific option of this panel from the database.
+	 *
+	 * @param string $key
+	 * @param boolean $default
+	 * @return mixed
+	 */
 	private function get_option( $key = '', $default = false ) {
 
 		global ${$this->func . '_options'};
 
-		$value = ! empty( ${$this->func . '_options'}[$key] ) ? ${$this->func . '_options'}[$key] : $default;
+		$value = ! empty( ${$this->func . '_options'}[ $key ] ) ? ${$this->func . '_options'}[ $key ] : $default;
 		$value = apply_filters( $this->func . '_get_option', $value, $key, $default );
 
 		return apply_filters( $this->func . '_get_option_' . $key, $value, $key, $default );
@@ -358,21 +365,24 @@ class OptionsKit {
 
 		$settings = array();
 
-		/*
-		if ( empty( $settings ) ) {
-			$settings = array();
-			update_option( $this->func . '_settings', $settings );
-		}*/
-
 		// First retrieve all the registered settings.
 		$registered_settings = $this->get_registered_settings();
-		
+
 		// Loop through each available setting, and setup the setting into the array.
 		foreach ( $registered_settings as $setting_section ) {
 			foreach ( $setting_section as $setting ) {
-				$default = isset( $setting['std'] ) ? $setting['std'] : '';
+				$default                    = isset( $setting['std'] ) ? $setting['std'] : '';
 				$settings[ $setting['id'] ] = $this->get_option( $setting['id'], $default );
 			}
+		}
+
+		// Check if the option for this panel exists into the database.
+		// If not, create an empty one.
+		// If option exists, merge with available settings.
+		if ( ! get_option( $this->func . '_settings' ) ) {
+			update_option( $this->func . '_settings', $settings );
+		} else {
+			$settings = array_merge( $settings, get_option( $this->func . '_settings' ) );
 		}
 
 		return apply_filters( $this->func . '_get_settings', $settings );
