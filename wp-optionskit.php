@@ -248,7 +248,8 @@ class OptionsKit {
 				'labels'     => $this->labels,
 				'tabs'       => $this->get_settings_tabs(),
 				'sections'   => $this->get_registered_settings_sections(),
-				'settings'   => $this->get_registered_settings()
+				'settings'   => $this->get_registered_settings(),
+				'options'    => $this->get_options(),
 			);
 			wp_localize_script( $this->func . '_opk', 'optionsKitSettings', $options_panel_settings );
 		}
@@ -335,6 +336,24 @@ class OptionsKit {
 	 */
 	private function get_registered_settings() {
 		return apply_filters( $this->func . '_registered_settings', array() );
+	}
+
+	/**
+	 * Retrieve stored options from WordPress and populate the model into Vue.js
+	 *
+	 * @return array
+	 */
+	private function get_options() {
+
+		$settings = get_option( $this->func . '_settings' );
+
+		if ( empty( $settings ) ) {
+			$settings = array();
+			update_option( $this->func . '_settings', $settings );
+		}
+
+		return apply_filters( $this->func . '_get_settings', $settings );
+
 	}
 
 	/**
