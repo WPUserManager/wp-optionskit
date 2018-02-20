@@ -137,13 +137,23 @@ class OptionsKit {
 
 	}
 
+	/**
+	 * Register the WP API controller for the options panel.
+	 *
+	 * @return void
+	 */
 	public function register_rest_controller() {
 		require_once 'includes/class-wpok-rest-server.php';
-		$controller = new \TDP\WPOK_Rest_Server();
+		$controller = new \TDP\WPOK_Rest_Server( $this->func );
 		$controller->register_routes();
 
 	}
 
+	/**
+	 * Return the rest url for the options panel.
+	 *
+	 * @return string
+	 */
 	private function get_rest_url() {
 		return get_rest_url( null, '/wpok/v1/' );
 	}
