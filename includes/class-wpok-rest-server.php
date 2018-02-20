@@ -98,31 +98,6 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 		return true;
 	}
 
-	private function is_setting_registered( $field_id, $data ) {
-
-		return in_array( $field_id, $data );
-
-	}
-
-	/**
-	 * Flattens the set of registered settings and their type so we can easily sanitize all settings.
-	 *
-	 * @return void
-	 */
-	private function get_registered_settings_types() {
-
-		$setting_types = array();
-
-		foreach ( $this->settings as $setting_section ) {
-			foreach ( $setting_section as $setting ) {
-				$setting_types[ $setting['id'] ] = $setting['type'];
-			}
-		}
-
-		return $setting_types;
-
-	}
-
 	/**
 	 * Sanitize text fields.
 	 *
@@ -144,8 +119,6 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 		$registered_settings = $this->settings;
 		$settings_received   = $_POST;
 		$data_to_save        = array();
-
-		// $setting_types = $this->get_registered_settings_types();
 
 		if ( is_array( $registered_settings ) && ! empty( $registered_settings ) ) {
 			foreach ( $registered_settings as $setting_section ) {
