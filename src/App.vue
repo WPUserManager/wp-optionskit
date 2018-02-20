@@ -97,9 +97,9 @@ export default {
 				this.$optionsKitSettings.nonce
 			)
 			.then(data => {
-                console.log(data);
+                console.log( 'then success', data);
             }).catch(error => {
-                console.log('yo error')
+                console.log( this.form.errors )
             })
 		}
 	}

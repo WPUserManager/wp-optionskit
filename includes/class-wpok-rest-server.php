@@ -56,6 +56,13 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 	protected $settings;
 
 	/**
+	 * Store errors here.
+	 *
+	 * @var object
+	 */
+	protected $errors;
+
+	/**
 	 * Get controller started.
 	 */
 	public function __construct( $slug, $settings ) {
@@ -65,7 +72,11 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 		$this->settings  = $settings;
 		$this->namespace = 'wpok/' . $this->slug . '/' . $this->version;
 
-		add_filter( $this->slug . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ) );
+		// Create a new instance of WP_Error
+		$this->errors = new \WP_Error();
+
+		add_filter( $this->slug . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ), 2, 10 );
+		add_filter( $this->slug . '_settings_sanitize_name', array( $this, 'test_error' ), 2, 10 );
 
 	}
 
@@ -104,8 +115,20 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 	 * @param string $input
 	 * @return string
 	 */
-	public function sanitize_text_field( $input ) {
+	public function sanitize_text_field( $input, $errors ) {
 		return trim( wp_strip_all_tags( $input, true ) );
+	}
+
+	public function test_error( $input, $errors ) {
+
+		$this->errors->add( 'name', 'Message', array( 'status' => 422 ) );
+
+		$this->errors->add( 'name2', 'Message 2', array( 'status' => 422 ) );
+
+		return '';
+
+		//return new \WP_Error( 'broke', 'Heres the error', array( 'status' => 422 ) );
+
 	}
 
 	/**
@@ -135,20 +158,19 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 
 					// Sanitize the input.
 					$setting_type = $setting['type'];
-					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting_type, $settings_received[ $setting['id'] ] );
-					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting['id'], $output );
+					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting_type, $settings_received[ $setting['id'] ], $this->errors );
+					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting['id'], $output, $this->errors );
 
 					// Add the option to the list of ones that we need to save.
 					if ( ! empty( $output ) && ! is_wp_error( $output ) ) {
 						$data_to_save[ $setting['id'] ] = $output;
 					}
-
-					// Return any errors if any found.
-					if ( is_wp_error( $output ) ) {
-						return rest_ensure_response( $output );
-					}
 				}
 			}
+		}
+
+		if ( ! empty( $this->errors->get_error_codes() ) ) {
+			return new \WP_REST_Response( $this->errors, 422 );
 		}
 
 		return rest_ensure_response( $data_to_save );
