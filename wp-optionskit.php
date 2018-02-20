@@ -144,7 +144,7 @@ class OptionsKit {
 	 */
 	public function register_rest_controller() {
 		require_once 'includes/class-wpok-rest-server.php';
-		$controller = new \TDP\WPOK_Rest_Server( $this->func );
+		$controller = new \TDP\WPOK_Rest_Server( $this->func, $this->get_registered_settings() );
 		$controller->register_routes();
 
 	}
@@ -155,7 +155,7 @@ class OptionsKit {
 	 * @return string
 	 */
 	private function get_rest_url() {
-		return get_rest_url( null, '/wpok/v1/' );
+		return get_rest_url( null, '/wpok/' . $this->func . '/v1/' );
 	}
 
 	/**

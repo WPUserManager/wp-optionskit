@@ -42,11 +42,27 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 	protected $version;
 
 	/**
+	 * The slug of the options panel.
+	 *
+	 * @var string
+	 */
+	protected $slug;
+
+	/**
+	 * All the registered settings that we're going to parse.
+	 *
+	 * @var array
+	 */
+	protected $settings;
+
+	/**
 	 * Get controller started.
 	 */
-	public function __construct( $slug ) {
+	public function __construct( $slug, $settings ) {
 		$this->version   = 'v1';
-		$this->namespace = 'wpok/' . $slug . '/' . $this->version;
+		$this->slug      = $slug;
+		$this->settings  = $settings;
+		$this->namespace = 'wpok/' . $this->slug . '/' . $this->version;
 	}
 
 	/**
@@ -78,9 +94,15 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 		return true;
 	}
 
+	/**
+	 * Save options to the database. Sanitize them first.
+	 *
+	 * @param \WP_REST_Request $request
+	 * @return void
+	 */
 	public function save_options( \WP_REST_Request $request ) {
 
-		$data = array( 'PUPA LOCAAAAAAAAA' => $_POST );
+		$data = array( 'test' => $_POST );
 
 		return rest_ensure_response( $data );
 
