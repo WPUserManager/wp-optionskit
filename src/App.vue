@@ -28,8 +28,9 @@
 				</div>
 			</div>
 			<!-- end navigation -->
-			<router-view :model="model"></router-view>
-			<router-view name="fields" v-if="isMainTab" :model="model"></router-view>
+			<!-- Or display all error messages for specific field -->
+			<router-view :model="model" :form="form"></router-view>
+			<router-view name="fields" v-if="isMainTab" :model="model" :form="form"></router-view>
 			<!-- Disable buttons using form.isPending -->
             <button type="submit" :disabled="form.isPending" class="button button-primary opk-submit">{{saveLabel}}</button>
 			<div class="spinner is-active opk-spinner" v-show="form.isPending"></div>
@@ -51,7 +52,7 @@ export default {
 			mainItems: [],
 			isMainTab: Boolean,
 			model: this.$optionsKitSettings.options,
-			form: new Formit()
+			form: new Formit(),
 		}
 	},
 	created() {

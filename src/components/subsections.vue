@@ -7,7 +7,7 @@
 				</li>
 			</ul>
 		</div>
-		<router-view :model="model"></router-view>
+		<router-view :model="model" :form="form"></router-view>
 	</div>
 </template>
 
@@ -22,7 +22,11 @@ export default {
 		/**
 		 * Contains the data that will be sent to WordPres to save.
 		 */
-		model: {}
+		model: {},
+		/**
+		 * Form object. 
+		 */
+		form: {}
 	},
  }
 </script>

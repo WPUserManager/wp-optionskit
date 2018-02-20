@@ -6,6 +6,8 @@
 				<td>
 					<component v-bind:is="getFieldComponentName(field.type)" :field="field" :class="classes(field.type)" v-model="model[field.id]"></component>
 					<p class="description" v-if="field.desc">{{field.desc}}</p>
+					<!-- Display the error message for this specific field -->
+            		<div class="error" v-show="form.errors.has(field.id)" v-text="form.errors.get(field.id)"></div>
 				</td>
 			</tr>
 		</table>
@@ -24,7 +26,14 @@ export default {
 		/**
 		 * Contains the data that will be sent to WordPres to save.
 		 */
-		model: {}
+		model: {},
+		/**
+		 * Form object. 
+		 */
+		form: {}
+	},
+	mounted() {
+		console.log(this.form)
 	},
 	methods: {
 		/**
