@@ -59,10 +59,14 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 	 * Get controller started.
 	 */
 	public function __construct( $slug, $settings ) {
+		
 		$this->version   = 'v1';
 		$this->slug      = $slug;
 		$this->settings  = $settings;
 		$this->namespace = 'wpok/' . $this->slug . '/' . $this->version;
+
+		add_filter( $this->slug . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ) );
+
 	}
 
 	/**
@@ -94,6 +98,41 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 		return true;
 	}
 
+	private function is_setting_registered( $field_id, $data ) {
+
+		return in_array( $field_id, $data );
+
+	}
+
+	/**
+	 * Flattens the set of registered settings and their type so we can easily sanitize all settings.
+	 *
+	 * @return void
+	 */
+	private function get_registered_settings_types() {
+
+		$setting_types = array();
+
+		foreach ( $this->settings as $setting_section ) {
+			foreach ( $setting_section as $setting ) {
+				$setting_types[ $setting['id'] ] = $setting['type'];
+			}
+		}
+
+		return $setting_types;
+
+	}
+
+	/**
+	 * Sanitize text fields.
+	 *
+	 * @param string $input
+	 * @return string
+	 */
+	public function sanitize_text_field( $input ) {
+		return trim( wp_strip_all_tags( $input, true ) );
+	}
+ 
 	/**
 	 * Save options to the database. Sanitize them first.
 	 *
@@ -102,7 +141,36 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 	 */
 	public function save_options( \WP_REST_Request $request ) {
 
-		$data = array( 'test' => $_POST );
+		$registered_settings = $this->settings;
+		$settings_received   = $_POST;
+		$data_to_save        = array();
+
+		// $setting_types = $this->get_registered_settings_types();
+
+		if ( is_array( $registered_settings ) && ! empty( $registered_settings ) ) {
+			foreach ( $registered_settings as $setting_section ) {
+				foreach ( $setting_section as $setting ) {
+					// Skip if no setting type.
+					if ( ! $setting['type'] ) {
+						continue;
+					}
+
+					// Skip if the ID doesn't exist in the data received.
+					if ( ! array_key_exists( $setting['id'], $settings_received ) ) {
+						continue;
+					}
+
+					$setting_type = $setting['type'];
+					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting_type, $settings_received[ $setting['id'] ] );
+
+					if ( ! empty( $output ) ) {
+						$data_to_save[ $setting['id'] ] = $output;
+					}
+				}
+			}
+		}
+
+		$data = array( 'test' => $data_to_save );
 
 		return rest_ensure_response( $data );
 
