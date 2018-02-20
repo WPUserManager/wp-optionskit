@@ -59,7 +59,7 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 	 * Get controller started.
 	 */
 	public function __construct( $slug, $settings ) {
-		
+
 		$this->version   = 'v1';
 		$this->slug      = $slug;
 		$this->settings  = $settings;
@@ -107,7 +107,7 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 	public function sanitize_text_field( $input ) {
 		return trim( wp_strip_all_tags( $input, true ) );
 	}
- 
+
 	/**
 	 * Save options to the database. Sanitize them first.
 	 *
@@ -133,19 +133,25 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 						continue;
 					}
 
+					// Sanitize the input.
 					$setting_type = $setting['type'];
 					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting_type, $settings_received[ $setting['id'] ] );
+					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting['id'], $output );
 
-					if ( ! empty( $output ) ) {
+					// Add the option to the list of ones that we need to save.
+					if ( ! empty( $output ) && ! is_wp_error( $output ) ) {
 						$data_to_save[ $setting['id'] ] = $output;
+					}
+
+					// Return any errors if any found.
+					if ( is_wp_error( $output ) ) {
+						return rest_ensure_response( $output );
 					}
 				}
 			}
 		}
 
-		$data = array( 'test' => $data_to_save );
-
-		return rest_ensure_response( $data );
+		return rest_ensure_response( $data_to_save );
 
 	}
 

@@ -86,7 +86,9 @@ export default {
 				this.isMainTab = true
 			}
 		},
-
+		/**
+		 * Send options to WordPress backend and store them.
+		 */
 		submit() {
 			this.form.submit(
 				'post',
