@@ -122,7 +122,7 @@ export default {
 			.then(data => {
 
 				this.success = true
-				console.log(data)
+				this.model = data
 
             }).catch(error => {
 				/**
