@@ -28,6 +28,9 @@
 				</div>
 			</div>
 			<!-- end navigation -->
+
+			<wp-notice type="success" alternative>asda</wp-notice>
+
 			<!-- Or display all error messages for specific field -->
 			<router-view :model="model" :form="form"></router-view>
 			<router-view name="fields" v-if="isMainTab" :model="model" :form="form"></router-view>

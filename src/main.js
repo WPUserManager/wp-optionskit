@@ -4,8 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueFormitFields from 'vue-formit-fields'
+import WPNotice from 'vue-wp-notice'
 
 Vue.use(VueFormitFields)
+Vue.use(WPNotice)
 
 Vue.config.productionTip = false
 // Import options panel configuration.
