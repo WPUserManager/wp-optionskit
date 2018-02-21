@@ -215,8 +215,18 @@ body.optionskit-panel-page {
 }
 
 .opk-form {
-	.vue-wp-notice {
+	> .vue-wp-notice {
 		margin: 20px;
+	}
+
+	table {
+		.vue-wp-notice {
+			p {
+				margin: 0.5em 0;
+				padding: 2px;
+			}
+			display: inline-block;
+		}
 	}
 }
 

@@ -6,8 +6,10 @@
 				<td>
 					<component v-bind:is="getFieldComponentName(field.type)" :field="field" :class="classes(field.type)" v-model="model[field.id]"></component>
 					<p class="description" v-if="field.desc">{{field.desc}}</p>
+					
 					<!-- Display the error message for this specific field -->
-            		<div class="error" v-show="form.errors.has(field.id)" v-text="form.errors.get(field.id)"></div>
+					<wp-notice type="error" v-show="form.errors.has(field.id)" alternative><strong>{{form.errors.get(field.id)}}</strong></wp-notice>
+
 				</td>
 			</tr>
 		</table>
