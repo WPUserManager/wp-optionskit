@@ -264,6 +264,13 @@ body.optionskit-panel-page {
 			display: block;
 			margin-bottom: 5px;
 		}
+
+		.formit-checkbox-wrapper ~ p {
+			display: inline-block;
+			position: relative;
+			top: 1px;
+		}
+
 	}
 }
 
