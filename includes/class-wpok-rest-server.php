@@ -115,6 +115,12 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 	 * @return string
 	 */
 	public function sanitize_text_field( $input, $errors, $setting ) {
+
+		$errors->add( 'name', 'Test error message', array(
+			'status' => 422,
+			'label' => $setting['name']
+		) );
+
 		return trim( wp_strip_all_tags( $input, true ) );
 	}
 
