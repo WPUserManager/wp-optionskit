@@ -29,7 +29,7 @@
 			</div>
 			<!-- end navigation -->
 
-			<wp-notice type="success" alternative>asda</wp-notice>
+			<wp-notice type="success" dismissible><strong>{{successMessage}}</strong></wp-notice>
 
 			<!-- Or display all error messages for specific field -->
 			<router-view :model="model" :form="form"></router-view>
@@ -51,6 +51,7 @@ export default {
 			pageTitle: this.$optionsKitSettings.page_title,
 			actionButtons: this.$optionsKitSettings.buttons,
 			saveLabel: this.$optionsKitSettings.labels['save'],
+			successMessage: this.$optionsKitSettings.labels['success'],
 			items: [],
 			mainItems: [],
 			isMainTab: Boolean,
@@ -212,4 +213,11 @@ body.optionskit-panel-page {
 #optionskit-panel .opk-submit {
 	margin-left: 20px;
 }
+
+.opk-form {
+	.vue-wp-notice {
+		margin: 20px;
+	}
+}
+
 </style>

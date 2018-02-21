@@ -166,7 +166,8 @@ class OptionsKit {
 	private function get_labels() {
 
 		$defaults = array(
-			'save' => 'Save Changes',
+			'save'    => 'Save Changes',
+			'success' => 'Settings successfully saved.'
 		);
 
 		return apply_filters( $this->func . '_labels', $defaults );
