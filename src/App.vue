@@ -15,7 +15,7 @@
 					<input type="submit" class="button button-primary" :disabled="form.isPending" :value="saveLabel">
 				</div>
 
-				<wp-notice type="success" dismissible alternative v-if="form.succesful">
+				<wp-notice type="success" dismissible alternative v-if="success === true">
 					<strong>{{successMessage}}</strong>
 				</wp-notice>
 
@@ -66,6 +66,7 @@ export default {
 			items: [],
 			mainItems: [],
 			isMainTab: Boolean,
+			success: false,
 			model: this.$optionsKitSettings.options,
 			form: new Formit(),
 		}
@@ -91,6 +92,7 @@ export default {
 	watch:{
         '$route'() {
 			this.detectMainTab()
+			this.success = false
 		}
 	},
 	methods: {
@@ -109,6 +111,8 @@ export default {
 		 * Send options to WordPress backend and store them.
 		 */
 		submit() {
+			this.success = false
+
 			this.form.submit(
 				'post',
 				this.$optionsKitSettings.rest_url + 'records',
@@ -116,9 +120,11 @@ export default {
 				this.$optionsKitSettings.nonce
 			)
 			.then(data => {
-                console.log( 'then success', data);
-            }).catch(error => {
 
+				this.success = true
+				console.log(data)
+
+            }).catch(error => {
 				/**
 				 * Retrieve labels of all fields with errors.
 				 */
