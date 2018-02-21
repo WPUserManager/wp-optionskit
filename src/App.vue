@@ -20,7 +20,7 @@
 				</wp-notice>
 
 				<wp-notice type="error" dismissible alternative v-if="form.errors.any()">
-					<strong>{{errorMessage}} </strong>
+					<strong>{{errorMessage}} {{errorLabels}}</strong>
 				</wp-notice>
 
 			</section>
@@ -62,6 +62,7 @@ export default {
 			saveLabel: this.$optionsKitSettings.labels['save'],
 			successMessage: this.$optionsKitSettings.labels['success'],
 			errorMessage: this.$optionsKitSettings.labels['error'],
+			errorLabels: String,
 			items: [],
 			mainItems: [],
 			isMainTab: Boolean,
@@ -105,16 +106,6 @@ export default {
 			}
 		},
 		/**
-		 * Retrieve a list of field's names that have an error.
-		*/
-		getFieldsWithErrors() {
-
-			const names = ''
-
-			return this.form.errors
-
-		},
-		/**
 		 * Send options to WordPress backend and store them.
 		 */
 		submit() {
@@ -127,7 +118,19 @@ export default {
 			.then(data => {
                 console.log( 'then success', data);
             }).catch(error => {
-                console.log( this.form.errors )
+
+				/** 
+				 * Retrieve labels of all fields with errors.
+				 */
+				let errordata = this.form.errorsData
+				let labels    = ''
+				Object.keys(errordata).map(function(objectKey, index) {
+					if (errordata[objectKey].label) {
+						labels += '"' + errordata[objectKey].label + '", '
+					}
+				})
+				this.errorLabels = labels.substring(0, labels.length-2)
+
             })
 		}
 	}
