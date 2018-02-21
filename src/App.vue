@@ -121,6 +121,7 @@ export default {
 			)
 			.then(data => {
 
+				console.log(data)
 				this.success = true
 				this.model = data
 

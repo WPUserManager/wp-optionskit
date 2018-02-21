@@ -76,6 +76,7 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 		$this->errors = new \WP_Error();
 
 		add_filter( $this->slug . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ), 3, 10 );
+		add_filter( $this->slug . '_settings_sanitize_textarea', array( $this, 'sanitize_textarea_field' ), 3, 10 );
 
 	}
 
@@ -109,19 +110,27 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 	}
 
 	/**
-	 * Sanitize text fields.
+	 * Sanitize the text field.
 	 *
 	 * @param string $input
+	 * @param object $errors
+	 * @param array $setting
 	 * @return string
 	 */
 	public function sanitize_text_field( $input, $errors, $setting ) {
-
-		$errors->add( 'name', 'Test error message', array(
-			'status' => 422,
-			'label' => $setting['name']
-		) );
-
 		return trim( wp_strip_all_tags( $input, true ) );
+	}
+
+	/**
+	 * Sanitize textarea field.
+	 *
+	 * @param string $input
+	 * @param object $errors
+	 * @param array $setting
+	 * @return string
+	 */
+	public function sanitize_textarea_field( $input, $errors, $setting ) {
+		return stripslashes( wp_kses_post( $input ) );
 	}
 
 	/**

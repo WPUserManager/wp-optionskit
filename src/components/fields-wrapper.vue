@@ -29,7 +29,7 @@ export default {
 		 */
 		model: {},
 		/**
-		 * Form object. 
+		 * Form object.
 		 */
 		form: {}
 	},
@@ -38,7 +38,7 @@ export default {
 	},
 	methods: {
 		/**
-		 * Setup classes for the component based on the field type. 
+		 * Setup classes for the component based on the field type.
 		 */
 		classes (type) {
             return [
