@@ -259,6 +259,11 @@ body.optionskit-panel-page {
 			}
 			display: inline-block;
 		}
+
+		.formit-radio-wrap span {
+			display: block;
+			margin-bottom: 5px;
+		}
 	}
 }
 
