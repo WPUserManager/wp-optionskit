@@ -75,8 +75,7 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 		// Create a new instance of WP_Error
 		$this->errors = new \WP_Error();
 
-		add_filter( $this->slug . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ), 2, 10 );
-		add_filter( $this->slug . '_settings_sanitize_name', array( $this, 'test_error' ), 2, 10 );
+		add_filter( $this->slug . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ), 3, 10 );
 
 	}
 
@@ -115,20 +114,8 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 	 * @param string $input
 	 * @return string
 	 */
-	public function sanitize_text_field( $input, $errors ) {
+	public function sanitize_text_field( $input, $errors, $setting ) {
 		return trim( wp_strip_all_tags( $input, true ) );
-	}
-
-	public function test_error( $input, $errors ) {
-
-		$this->errors->add( 'name', 'The error message goes here nice long title.', array( 'status' => 422, 'label' => 'label' ) );
-
-		$this->errors->add( 'name2', 'Message 2', array( 'status' => 422 ) );
-
-		return '';
-
-		//return new \WP_Error( 'broke', 'Heres the error', array( 'status' => 422 ) );
-
 	}
 
 	/**
@@ -158,8 +145,8 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 
 					// Sanitize the input.
 					$setting_type = $setting['type'];
-					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting_type, $settings_received[ $setting['id'] ], $this->errors );
-					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting['id'], $output, $this->errors );
+					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting_type, $settings_received[ $setting['id'] ], $this->errors, $setting );
+					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting['id'], $output, $this->errors, $setting );
 
 					// Add the option to the list of ones that we need to save.
 					if ( ! empty( $output ) && ! is_wp_error( $output ) ) {
