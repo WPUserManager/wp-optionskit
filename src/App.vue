@@ -29,7 +29,7 @@
 			</div>
 			<!-- end navigation -->
 
-			<wp-notice type="success" dismissible><strong>{{successMessage}}</strong></wp-notice>
+			<wp-notice type="success" dismissible v-if="form.successful"><strong>{{successMessage}}</strong></wp-notice>
 
 			<!-- Or display all error messages for specific field -->
 			<router-view :model="model" :form="form"></router-view>
