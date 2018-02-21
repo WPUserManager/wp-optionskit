@@ -121,7 +121,7 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 
 	public function test_error( $input, $errors ) {
 
-		$this->errors->add( 'name', 'Message', array( 'status' => 422 ) );
+		$this->errors->add( 'name', 'The error message goes here nice long title.', array( 'status' => 422 ) );
 
 		$this->errors->add( 'name2', 'Message 2', array( 'status' => 422 ) );
 

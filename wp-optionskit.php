@@ -167,7 +167,8 @@ class OptionsKit {
 
 		$defaults = array(
 			'save'    => 'Save Changes',
-			'success' => 'Settings successfully saved.'
+			'success' => 'Settings successfully saved.',
+			'error'   => 'Whoops! Something went wrong. Please check the following fields for more info:',
 		);
 
 		return apply_filters( $this->func . '_labels', $defaults );

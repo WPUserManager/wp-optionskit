@@ -14,6 +14,15 @@
 					<!-- Disable buttons using form.isPending -->
 					<input type="submit" class="button button-primary" :disabled="form.isPending" :value="saveLabel">
 				</div>
+
+				<wp-notice type="success" dismissible alternative v-if="form.succesful">
+					<strong>{{successMessage}}</strong>
+				</wp-notice>
+
+				<wp-notice type="error" dismissible alternative v-if="form.errors.any()">
+					<strong>{{errorMessage}} </strong>
+				</wp-notice>
+
 			</section>
 			<!-- end header -->
 
@@ -29,14 +38,14 @@
 			</div>
 			<!-- end navigation -->
 
-			<wp-notice type="success" dismissible v-if="form.successful"><strong>{{successMessage}}</strong></wp-notice>
-
 			<!-- Or display all error messages for specific field -->
 			<router-view :model="model" :form="form"></router-view>
 			<router-view name="fields" v-if="isMainTab" :model="model" :form="form"></router-view>
+			
 			<!-- Disable buttons using form.isPending -->
             <button type="submit" :disabled="form.isPending" class="button button-primary opk-submit">{{saveLabel}}</button>
 			<div class="spinner is-active opk-spinner" v-show="form.isPending"></div>
+
 		</form>
 	</section>
 </template>
@@ -52,6 +61,7 @@ export default {
 			actionButtons: this.$optionsKitSettings.buttons,
 			saveLabel: this.$optionsKitSettings.labels['save'],
 			successMessage: this.$optionsKitSettings.labels['success'],
+			errorMessage: this.$optionsKitSettings.labels['error'],
 			items: [],
 			mainItems: [],
 			isMainTab: Boolean,
@@ -60,6 +70,9 @@ export default {
 		}
 	},
 	created() {
+		/**
+		 * Detect if it's main tab on page load.
+		 */
 		this.detectMainTab()
 		/**
 		 * Get all routes and add them to an array.
@@ -90,6 +103,16 @@ export default {
 			} else {
 				this.isMainTab = true
 			}
+		},
+		/**
+		 * Retrieve a list of field's names that have an error.
+		*/
+		getFieldsWithErrors() {
+
+			const names = ''
+
+			return this.form.errors
+
 		},
 		/**
 		 * Send options to WordPress backend and store them.
@@ -177,6 +200,9 @@ body.optionskit-panel-page {
 			padding: 0;
 		}
 	}
+	.vue-wp-notice {
+		margin: 20px 0 10px;
+	}
 }
 #optionskit-navigation {
 	margin: -2px 0 0 0;
@@ -215,10 +241,6 @@ body.optionskit-panel-page {
 }
 
 .opk-form {
-	> .vue-wp-notice {
-		margin: 20px;
-	}
-
 	table {
 		.vue-wp-notice {
 			p {

@@ -2,14 +2,14 @@
 	<div class="optionskit-form-wrapper">
 		<table class="form-table">
 			<tr v-for="field in fields" :key="field.id">
-				<th scope="row"><label :for="field.id">{{field.name}}</label></th>
+				<th scope="row">
+					<label :for="field.id">{{field.name}}</label>
+				</th>
 				<td>
 					<component v-bind:is="getFieldComponentName(field.type)" :field="field" :class="classes(field.type)" v-model="model[field.id]"></component>
 					<p class="description" v-if="field.desc">{{field.desc}}</p>
-					
 					<!-- Display the error message for this specific field -->
 					<wp-notice type="error" v-show="form.errors.has(field.id)" alternative><strong>{{form.errors.get(field.id)}}</strong></wp-notice>
-
 				</td>
 			</tr>
 		</table>
