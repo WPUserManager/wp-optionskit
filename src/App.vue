@@ -252,6 +252,9 @@ body.optionskit-panel-page {
 
 .opk-form {
 	table {
+		input {
+			padding: 5px
+		}
 		.vue-wp-notice {
 			p {
 				margin: 0.5em 0;
@@ -269,6 +272,15 @@ body.optionskit-panel-page {
 			display: inline-block;
 			position: relative;
 			top: 1px;
+		}
+
+		.opk-upload-field-wrapper {
+			a.button {
+				span {
+					margin-top: 5px;
+					margin-right: 8px;
+				}
+			}
 		}
 
 	}

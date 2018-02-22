@@ -166,9 +166,11 @@ class OptionsKit {
 	private function get_labels() {
 
 		$defaults = array(
-			'save'    => 'Save Changes',
-			'success' => 'Settings successfully saved.',
-			'error'   => 'Whoops! Something went wrong. Please check the following fields for more info:',
+			'save'         => 'Save Changes',
+			'success'      => 'Settings successfully saved.',
+			'upload'       => 'Select file',
+			'upload-title' => 'Insert file',
+			'error'        => 'Whoops! Something went wrong. Please check the following fields for more info:',
 		);
 
 		return apply_filters( $this->func . '_labels', $defaults );
@@ -263,6 +265,7 @@ class OptionsKit {
 				'settings'   => $this->get_registered_settings(),
 				'options'    => $this->get_options(),
 			);
+			wp_enqueue_media();
 			wp_localize_script( $this->func . '_opk', 'optionsKitSettings', $options_panel_settings );
 		}
 

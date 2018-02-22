@@ -5,9 +5,13 @@ import App from './App'
 import router from './router'
 import VueFormitFields from 'vue-formit-fields'
 import WPNotice from 'vue-wp-notice'
+import UploadField from './components/fields/upload-field'
 
 Vue.use(VueFormitFields)
 Vue.use(WPNotice)
+
+// Load custom fields from this app.
+Vue.component('formit-file', UploadField)
 
 Vue.config.productionTip = false
 // Import options panel configuration.
@@ -17,6 +21,8 @@ Vue.prototype.$optionsKitSettings = optionsKitSettings
 new Vue({
 	el: '#optionskit-page',
 	router,
-	components: { App },
+	components: {
+		App,
+	},
 	template: '<App/>'
 })
