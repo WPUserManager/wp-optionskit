@@ -170,6 +170,12 @@ class OptionsKit {
 			'success'      => 'Settings successfully saved.',
 			'upload'       => 'Select file',
 			'upload-title' => 'Insert file',
+			'multiselect'  => array(
+				'selectLabel'   => 'Press enter to select',
+				'SelectedLabel' => 'Selected',
+				'deselectLabel' => 'Press enter to remove',
+				'placeholder'   => 'Select option',
+			),
 			'error'        => 'Whoops! Something went wrong. Please check the following fields for more info:',
 		);
 

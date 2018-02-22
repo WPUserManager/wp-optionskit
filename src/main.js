@@ -6,12 +6,14 @@ import router from './router'
 import VueFormitFields from 'vue-formit-fields'
 import WPNotice from 'vue-wp-notice'
 import UploadField from './components/fields/upload-field'
+import MultiselectField from './components/fields/multiselect'
 
 Vue.use(VueFormitFields)
 Vue.use(WPNotice)
 
 // Load custom fields from this app.
 Vue.component('formit-file', UploadField)
+Vue.component('formit-multiselect', MultiselectField)
 
 Vue.config.productionTip = false
 // Import options panel configuration.
@@ -22,7 +24,7 @@ new Vue({
 	el: '#optionskit-page',
 	router,
 	components: {
-		App,
+		App
 	},
 	template: '<App/>'
 })
