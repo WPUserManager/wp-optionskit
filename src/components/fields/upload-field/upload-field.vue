@@ -37,7 +37,7 @@ export default {
 			button: {
 				text: this.selectFile
 			},
-			multiple: false
+			multiple: false,
 		})
 		this.uploader = modalWindow
 	},
@@ -52,7 +52,7 @@ export default {
 			uploader.open()
 		},
 		setFile(url) {
-			this.$emit('input', url );
+			this.$emit('input', url )
 		}
 	}
 }
