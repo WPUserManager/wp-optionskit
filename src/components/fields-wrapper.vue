@@ -33,9 +33,6 @@ export default {
 		 */
 		form: {}
 	},
-	mounted() {
-		console.log(this.form)
-	},
 	methods: {
 		/**
 		 * Setup classes for the component based on the field type.

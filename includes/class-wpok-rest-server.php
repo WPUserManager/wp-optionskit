@@ -77,6 +77,8 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 
 		add_filter( $this->slug . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ), 3, 10 );
 		add_filter( $this->slug . '_settings_sanitize_textarea', array( $this, 'sanitize_textarea_field' ), 3, 10 );
+		add_filter( $this->slug . '_settings_sanitize_multiselect', array( $this, 'sanitize_multiple_field' ), 3, 10 );
+		add_filter( $this->slug . '_settings_sanitize_multicheckbox', array( $this, 'sanitize_multiple_field' ), 3, 10 );
 
 	}
 
@@ -131,6 +133,35 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 	 */
 	public function sanitize_textarea_field( $input, $errors, $setting ) {
 		return stripslashes( wp_kses_post( $input ) );
+	}
+
+	/**
+	 * Sanitize multiselect and multicheck field.
+	 *
+	 * @param mixed $input
+	 * @param object $errors
+	 * @param array $setting
+	 * @return array
+	 */
+	public function sanitize_multiple_field( $input, $errors, $setting ) {
+
+		$new_input = array();
+
+		if ( is_array( $input ) && ! empty( $input ) ) {
+			foreach ( $input as $key => $value ) {
+				$new_input[ sanitize_key( $key ) ] = sanitize_text_field( $value );
+			}
+		}
+
+		if ( ! empty( $input ) && ! is_array( $input ) ) {
+			$input = explode( ',', $input );
+			foreach ( $input as $key => $value ) {
+				$new_input[ sanitize_key( $key ) ] = sanitize_text_field( $value );
+			}
+		}
+
+		return $new_input;
+
 	}
 
 	/**

@@ -123,7 +123,7 @@ export default {
 
 				console.log(data)
 				this.success = true
-				this.model = data
+				//this.model = data
 
             }).catch(error => {
 				/**
