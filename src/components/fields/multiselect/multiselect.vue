@@ -26,7 +26,6 @@
         background: #f7f7f7;
         box-shadow: 0 1px 0 #ccc;
         border-radius: 3px;
-        cursor: pointer;
         &:hover {
             border-color: #999;
         }
@@ -36,7 +35,6 @@
         background: transparent;
         box-shadow: none;
         padding: 0;
-        cursor: pointer;
     }
     .opk-multiselect-field-wrapper {
         display: block;
