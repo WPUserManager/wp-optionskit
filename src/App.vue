@@ -124,11 +124,8 @@ export default {
 				this.$optionsKitSettings.nonce
 			)
 			.then(data => {
-
-				console.log(data)
 				this.success = true
 				this.model = data
-
             }).catch(error => {
 				/**
 				 * Retrieve labels of all fields with errors.
