@@ -100,6 +100,27 @@ export default {
         options: this.field.options
       }
     },
+    created() {
+        /**
+         * Preselect any stored value for this field.
+         */
+        const retrievedValue = this.$optionsKitSettings.options[ this.field.id ]
+        const fieldOptions = this.field.options
+        const currentValue = []
+
+        if( retrievedValue ) {
+            retrievedValue.forEach(function(entry) {
+                let result = fieldOptions.filter(function( obj ) {
+                    return obj.value == entry
+                })
+                currentValue.push({
+                    label: result[0].label,
+                    value: result[0].value
+                })
+            })
+            this.selected = currentValue
+        }
+    },
     methods: {
 		/**
 		 * Retrieve the label specified from the list of the ones available.
