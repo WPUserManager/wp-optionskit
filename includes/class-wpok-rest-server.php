@@ -221,6 +221,8 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 			return new \WP_REST_Response( $this->errors, 422 );
 		}
 
+		update_option( $this->slug . '_settings', $data_to_save );
+
 		return rest_ensure_response( $data_to_save );
 
 	}
