@@ -51,7 +51,9 @@ Object.keys(optionsKitSettings.tabs).forEach(function (key) {
 			},
 			props: {
 				default: {
-					sections: childRoutes
+					sections: childRoutes,
+					parentPath: path,
+					parentName: optionsKitSettings.tabs[key]
 				},
 				fields: {
 					fields: optionsKitSettings.settings[ path.substring(1) ]

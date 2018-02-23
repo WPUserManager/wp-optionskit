@@ -2,6 +2,9 @@
 	<div class="optionskit-sub-sections-wrapper">
 		<div class="optionskit-subnav" v-if="sections.length > 0">
 			<ul>
+				<li>
+					<router-link :to="parentPath">{{parentName}}</router-link><span>|</span>
+				</li>
 				<li v-for="item in sections" :key="item.path">
 					<router-link :to="item.path" v-if="item.name">{{item.name}}</router-link><span>|</span>
 				</li>
@@ -24,10 +27,15 @@ export default {
 		 */
 		model: {},
 		/**
-		 * Form object. 
+		 * Form object.
 		 */
-		form: {}
-	},
+		form: {},
+		/**
+		 * Collect parent path and parent name of the router.
+		 */
+		parentName: String,
+		parentPath: String
+	}
  }
 </script>
 
