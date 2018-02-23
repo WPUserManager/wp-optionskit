@@ -3,7 +3,7 @@
 		<form @submit.prevent="submit" class="opk-form">
 			<!-- Header -->
 			<section id="optionskit-topbar">
-				<h1>{{pageTitle}}</h1>
+				<h1><img :src="imgURL" v-if="imgURL">{{pageTitle}}</h1>
 				<ul class="title-links" v-if="actionButtons.length > 0">
 					<li v-for="link in actionButtons" :key="link.url">
 						<a :href="link.url" class="page-title-action">{{link.title}}</a>
@@ -58,6 +58,7 @@ export default {
 	data() {
 		return {
 			pageTitle: this.$optionsKitSettings.page_title,
+			imgURL: this.$optionsKitSettings.logo,
 			actionButtons: this.$optionsKitSettings.buttons,
 			saveLabel: this.$optionsKitSettings.labels['save'],
 			successMessage: this.$optionsKitSettings.labels['success'],

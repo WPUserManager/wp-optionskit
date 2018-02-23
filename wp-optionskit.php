@@ -56,6 +56,13 @@ class OptionsKit {
 	private $page_title;
 
 	/**
+	 * Logo to be displayed near the title.
+	 *
+	 * @var string
+	 */
+	private $image;
+
+	/**
 	 * Actions links for the options panel header.
 	 *
 	 * @var array
@@ -121,6 +128,16 @@ class OptionsKit {
 
 		$this->action_buttons[] = wp_parse_args( $args, $defaults );
 
+	}
+
+	/**
+	 * Set an image for the options panel title.
+	 *
+	 * @param string $url
+	 * @return void
+	 */
+	public function add_image( $url ) {
+		$this->image = esc_url( $url );
 	}
 
 	/**
@@ -265,6 +282,7 @@ class OptionsKit {
 				'nonce'       => wp_create_nonce( 'wp_rest' ),
 				'verifynonce' => wp_create_nonce( 'wpok_verifynonce' ),
 				'page_title'  => esc_html( $this->page_title ),
+				'logo'        => $this->image,
 				'buttons'     => $this->action_buttons,
 				'labels'      => $this->labels,
 				'tabs'        => $this->get_settings_tabs(),
