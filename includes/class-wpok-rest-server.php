@@ -172,6 +172,8 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 	 */
 	public function save_options( \WP_REST_Request $request ) {
 
+		check_ajax_referer( 'wpok_verifynonce', 'verifynonce' );
+
 		$registered_settings = $this->settings;
 		$settings_received   = $_POST;
 		$data_to_save        = array();

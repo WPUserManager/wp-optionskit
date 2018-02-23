@@ -261,15 +261,16 @@ class OptionsKit {
 		if ( $this->is_options_page() ) {
 			wp_enqueue_script( $this->func . '_opk', 'http://localhost:8080/app.js', array(), false, true );
 			$options_panel_settings = array(
-				'rest_url'   => esc_url( $this->get_rest_url() ),
-				'nonce'      => wp_create_nonce( 'wp_rest' ),
-				'page_title' => esc_html( $this->page_title ),
-				'buttons'    => $this->action_buttons,
-				'labels'     => $this->labels,
-				'tabs'       => $this->get_settings_tabs(),
-				'sections'   => $this->get_registered_settings_sections(),
-				'settings'   => $this->get_registered_settings(),
-				'options'    => $this->get_options(),
+				'rest_url'    => esc_url( $this->get_rest_url() ),
+				'nonce'       => wp_create_nonce( 'wp_rest' ),
+				'verifynonce' => wp_create_nonce( 'wpok_verifynonce' ),
+				'page_title'  => esc_html( $this->page_title ),
+				'buttons'     => $this->action_buttons,
+				'labels'      => $this->labels,
+				'tabs'        => $this->get_settings_tabs(),
+				'sections'    => $this->get_registered_settings_sections(),
+				'settings'    => $this->get_registered_settings(),
+				'options'     => $this->get_options(),
 			);
 			wp_enqueue_media();
 			wp_localize_script( $this->func . '_opk', 'optionsKitSettings', $options_panel_settings );

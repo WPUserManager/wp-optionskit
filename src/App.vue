@@ -113,6 +113,9 @@ export default {
 		submit() {
 			this.success = false
 
+			// Add new nonce.
+			this.model.verifynonce = this.$optionsKitSettings.verifynonce
+
 			this.form.submit(
 				'post',
 				this.$optionsKitSettings.rest_url + 'records',
@@ -123,7 +126,7 @@ export default {
 
 				console.log(data)
 				this.success = true
-				//this.model = data
+				this.model = data
 
             }).catch(error => {
 				/**
