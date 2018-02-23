@@ -126,6 +126,8 @@ export default {
 			.then(data => {
 				this.success = true
 				this.model = data
+				// Scroll to the top of the page after successfull submission.
+				document.body.scrollTop = document.documentElement.scrollTop = 0
             }).catch(error => {
 				/**
 				 * Retrieve labels of all fields with errors.
@@ -138,7 +140,8 @@ export default {
 					}
 				})
 				this.errorLabels = labels.substring(0, labels.length-2)
-
+				// Scroll to the top of the page after successfull submission.
+				document.body.scrollTop = document.documentElement.scrollTop = 0;
             })
 		}
 	}
