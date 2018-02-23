@@ -273,10 +273,18 @@ class OptionsKit {
 	 */
 	public function enqueue_scripts() {
 
-		$url_path = plugin_dir_url( __FILE__ );
+		$path = plugin_dir_url( __FILE__ );
 
 		if ( $this->is_options_page() ) {
-			wp_enqueue_script( $this->func . '_opk', 'http://localhost:8080/app.js', array(), false, true );
+
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true && defined( 'OPK_DEBUG' ) && OPK_DEBUG === true ) {
+				wp_enqueue_script( $this->func . '_opk', 'http://localhost:8080/app.js', array(), false, true );
+			} else {
+				wp_enqueue_script( $this->func . '_opk2', $path . 'dist/static/js/manifest.js', array(), false, true );
+				wp_enqueue_script( $this->func . '_opk', $path . 'dist/static/js/vendor.js', array(), false, true );
+				wp_enqueue_script( $this->func . '_opk3', $path . 'dist/static/js/app.js', array(), false, true );
+				wp_enqueue_style( $this->func . '_opkcss', $path . 'dist/static/css/app.css', array(), $this->version );
+			}
 			$options_panel_settings = array(
 				'rest_url'    => esc_url( $this->get_rest_url() ),
 				'nonce'       => wp_create_nonce( 'wp_rest' ),

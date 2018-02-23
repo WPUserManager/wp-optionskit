@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "vue": "^2.5.2",
+    "vue-formit": "^1.0.1",
+    "vue-formit-fields": "^1.0.0",
     "vue-multiselect": "^2.0.8",
     "vue-router": "^3.0.1",
     "vue-wp-notice": "^1.0.1"
