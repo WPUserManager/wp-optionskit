@@ -79,6 +79,7 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 		add_filter( $this->slug . '_settings_sanitize_textarea', array( $this, 'sanitize_textarea_field' ), 3, 10 );
 		add_filter( $this->slug . '_settings_sanitize_multiselect', array( $this, 'sanitize_multiple_field' ), 3, 10 );
 		add_filter( $this->slug . '_settings_sanitize_multicheckbox', array( $this, 'sanitize_multiple_field' ), 3, 10 );
+		add_filter( $this->slug . '_settings_sanitize_file', array( $this, 'sanitize_file_field' ), 3, 10 );
 
 	}
 
@@ -162,6 +163,18 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 
 		return $new_input;
 
+	}
+
+	/**
+	 * Sanitize urls for the file field.
+	 *
+	 * @param string $input
+	 * @param object $errors
+	 * @param array $setting
+	 * @return void
+	 */
+	public function sanitize_file_field( $input, $errors, $setting ) {
+		return esc_url( $input );
 	}
 
 	/**
