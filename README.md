@@ -1,6 +1,12 @@
 # wp-optionskit
 
+![Packagist](https://img.shields.io/packagist/dt/alessandrotesoro/wp-optionskit.svg) ![Packagist2](https://img.shields.io/packagist/l/alessandrotesoro/wp-optionskit.svg) ![PHP from Packagist](https://img.shields.io/packagist/php-v/alessandrotesoro/wp-optionskit.svg)
+
 > A toolkit for developers to create administration options panels for WordPress powered by Vuejs
+
+## Usage
+
+[Documentation can be found inside the wiki.](https://github.com/alessandrotesoro/wp-optionskit/wiki/1.-Home)
 
 ## Build Setup
 
