@@ -183,39 +183,39 @@ self.workbox.precaching.precacheAndRoute([
   },
   {
     "url": "docs/adding-fields/index.html",
-    "revision": "33f7cb867702618a2b68ebd1fdccdb5e"
+    "revision": "7be5d26f4299652af864a016f7b99805"
   },
   {
     "url": "docs/custom-fields/index.html",
-    "revision": "a0de6d7372a43dd93fb48d44358af0bf"
+    "revision": "e16169096502ec989f5c0f4efbaf66c4"
   },
   {
     "url": "docs/error-handling/index.html",
-    "revision": "d4267e0aa9770d97e6ec74a2550c5366"
+    "revision": "6f0ba72f2747c4e99958aa5527e41ec2"
   },
   {
     "url": "docs/getting-started/index.html",
-    "revision": "7e6f4a5983632f47e7a323d6b008a6db"
+    "revision": "7a72dae232b16cc471b1adc277f0e856"
   },
   {
     "url": "docs/intro/index.html",
-    "revision": "6c5a513cc32d4744cb58a47a81043444"
+    "revision": "70cef420b3529e93ceb8250ba62de127"
   },
   {
     "url": "docs/labels/index.html",
-    "revision": "c5821e76e528cf877b61a6dec5bfcff2"
+    "revision": "24bebd34e46838f3e0090e3538d3d046"
   },
   {
     "url": "docs/menu-setup/index.html",
-    "revision": "9b0019b6da033e097cba838e0b8359ef"
+    "revision": "a152b771029b020680161abc8e18e334"
   },
   {
     "url": "docs/sanitization-filters/index.html",
-    "revision": "87d0a832aee440700f6375ac6f34462d"
+    "revision": "89ea778f81284c8e5df47984bd770b74"
   },
   {
     "url": "docs/tabs-and-sections/index.html",
-    "revision": "c2d4a0d1a1520cb15e0307ab209e1d3c"
+    "revision": "8b3413b97cc4f24d7cc99cac4cc794e4"
   },
   {
     "url": "host.config.json",
@@ -223,7 +223,7 @@ self.workbox.precaching.precacheAndRoute([
   },
   {
     "url": "index.html",
-    "revision": "f5567d2be6991f900bc47d2a2dae34d1"
+    "revision": "ab35e64ffe0332f47593f04b14abc866"
   },
   {
     "url": "manifest.json",
