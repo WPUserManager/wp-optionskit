@@ -1,0 +1,23 @@
+<h1 id="custom-sanitization-filters">Custom sanitization filters</h1>
+<p>By default OptionsKit already includes sanitization for all fields. Sanitization is done through specific filters, in fact, OptionsKit uses it&#39;s own filters to add sanitization to the default fields. The filter name is prefixed like all other filters.</p>
+<h2 id="-prefix-_settings_sanitize_-type-">{prefix}_settings_sanitize_{type}</h2>
+<p>This filter accepts 3 arguments:</p>
+<ul>
+<li>$output : the submitted field value</li>
+<li>$errors : the WP_Error class object</li>
+<li>$setting : the array with details about the registered field being processed.</li>
+</ul>
+<p>The following example shows how to sanitize a text field. <strong>Note: you do not need to do this, this is just an example. OptionsKit already sanitizes all fields.</strong> This is just to show how to add custom rules.</p>
+<p>Custom rules might be needed if you wish to add validation or sanitization for custom fields.</p>
+<pre><code class="lang-php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sample_custom_sanitization</span><span class="hljs-params">( $input, $errors, $setting )</span> </span>{
+    <span class="hljs-keyword">return</span> trim( wp_strip_all_tags( $input, <span class="hljs-keyword">true</span> ) );
+}
+add_filter( <span class="hljs-string">'sample_settings_sanitize_text'</span>, <span class="hljs-string">'sample_custom_sanitization'</span>, <span class="hljs-number">3</span>, <span class="hljs-number">10</span> );
+</code></pre>
+<h2 id="-prefix-_settings_sanitize_-field_id-">{prefix}_settings_sanitize_{field_id}</h2>
+<p> An additional filteris is available for sanitization by field id. This sanitization only triggers for the field with the ID you&#39;ve specified. The filters works in the exact same way as above.</p>
+<p> <stencil-route-link url="/docs/error-handling" router="#router" custom="true">
+  <button id="introButton">
+    Next
+  </button>
+</stencil-route-link></p>

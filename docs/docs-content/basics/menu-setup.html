@@ -1,0 +1,33 @@
+<h1 id="menu-location-customization">Menu location customization</h1>
+<p>By default, any options panel created with OptionsKit goes under the &quot;Settings&quot; menu of the WordPress dashboard. If you wish to customize this location you&#39;ll need to use the built-in <code>{prefix}_menu</code> filter.</p>
+<p>The filters accepts an array with the following parameters: </p>
+<ul>
+<li>parent</li>
+<li>page_title</li>
+<li>menu_title</li>
+<li>capability</li>
+</ul>
+<p>These are described here <a href="https://developer.wordpress.org/reference/functions/add_submenu_page/">add_submenu_page</a>.</p>
+<p>Note: <code>sample</code> is the slug we&#39;ve set when we&#39;ve instantiated the class.</p>
+<pre><code class="lang-php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sample_menu</span><span class="hljs-params">( $menu )</span> </span>{
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">array</span>(
+        <span class="hljs-string">'parent'</span>     =&gt; <span class="hljs-string">'options-general.php'</span>,
+        <span class="hljs-string">'page_title'</span> =&gt; <span class="hljs-string">'My panel'</span>,
+        <span class="hljs-string">'menu_title'</span> =&gt; <span class="hljs-string">'My Panel'</span>,
+        <span class="hljs-string">'capability'</span> =&gt; <span class="hljs-string">'manage_options'</span>,
+    );
+
+}
+add_filter( <span class="hljs-string">'sample_menu'</span>, <span class="hljs-string">'sample_menu'</span> );
+</code></pre>
+<p><stencil-route-link url="/docs/getting-started" router="#router" custom="true">
+  <button class="backButton">
+    Back
+  </button>
+</stencil-route-link></p>
+<p><stencil-route-link url="/docs/tabs-and-sections" custom="true">
+  <button class="nextButton">
+    Next
+  </button>
+</stencil-route-link></p>

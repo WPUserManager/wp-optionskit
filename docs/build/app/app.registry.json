@@ -1,0 +1,46 @@
+{
+  "namespace": "App",
+  "fsNamespace": "app",
+  "loader": "../app.js",
+  "global": "app.global.js",
+  "core": "app.ucumfbl5.js",
+  "corePolyfilled": "app.m6zfgcl9.js",
+  "components": {
+    "app-marked": {
+      "$": "vohtupuk"
+    },
+    "document-component": {
+      "$": "vohtupuk"
+    },
+    "landing-page": {
+      "$": "viooxoea"
+    },
+    "lazy-iframe": {
+      "$": "bayssvoa"
+    },
+    "pwas-page": {
+      "$": "xzrtjtph"
+    },
+    "resources-page": {
+      "$": "dyoj3lkk"
+    },
+    "site-header": {
+      "$": "vohtupuk"
+    },
+    "site-menu": {
+      "$": "vohtupuk"
+    },
+    "stencil-route": {
+      "$": "vohtupuk"
+    },
+    "stencil-route-link": {
+      "$": "r7jvoom2"
+    },
+    "stencil-router": {
+      "$": "vohtupuk"
+    },
+    "stencil-site": {
+      "$": "vohtupuk"
+    }
+  }
+}
