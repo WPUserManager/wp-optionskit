@@ -1,6 +1,6 @@
 {
 	"name": "alessandrotesoro/wp-optionskit",
-	"license": "GPLv3+",
+	"license": "GPL-3.0-or-later",
 	"description": "A toolkit for developers to create administration options panels for WordPress powered by Vuejs",
 	"homepage": "https://github.com/alessandrotesoro/wp-optionskit/",
 	"authors": [{
