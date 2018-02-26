@@ -11,3 +11,7 @@
 /index.html export-ignore
 /LICENSE export-ignore
 /yarn.lock export-ignore
+/.babelrc export-ignore
+/.editorconfig export-ignore
+/package.json export-ignore
+/package-lock.json export-ignore
