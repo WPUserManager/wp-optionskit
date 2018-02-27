@@ -79,6 +79,7 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 		add_filter( $this->slug . '_settings_sanitize_textarea', array( $this, 'sanitize_textarea_field' ), 3, 10 );
 		add_filter( $this->slug . '_settings_sanitize_radio', array( $this, 'sanitize_text_field' ), 3, 10 );
 		add_filter( $this->slug . '_settings_sanitize_select', array( $this, 'sanitize_text_field' ), 3, 10 );
+		add_filter( $this->slug . '_settings_sanitize_checkbox', array( $this, 'sanitize_checkbox_field' ), 3, 10 );
 		add_filter( $this->slug . '_settings_sanitize_multiselect', array( $this, 'sanitize_multiple_field' ), 3, 10 );
 		add_filter( $this->slug . '_settings_sanitize_multicheckbox', array( $this, 'sanitize_multiple_field' ), 3, 10 );
 		add_filter( $this->slug . '_settings_sanitize_file', array( $this, 'sanitize_file_field' ), 3, 10 );
@@ -180,6 +181,26 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 	}
 
 	/**
+	 * Sanitize the checkbox field.
+	 *
+	 * @param string $input
+	 * @param object $errors
+	 * @param array $setting
+	 * @return void
+	 */
+	public function sanitize_checkbox_field( $input, $errors, $setting ) {
+
+		$pass = false;
+
+		if ( $input == 'true' ) {
+			$pass = true;
+		}
+
+		return $pass;
+
+	}
+
+	/**
 	 * Save options to the database. Sanitize them first.
 	 *
 	 * @param \WP_REST_Request $request
@@ -211,7 +232,7 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting_type, $settings_received[ $setting['id'] ], $this->errors, $setting );
 					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting['id'], $output, $this->errors, $setting );
 
-					if ( $setting_type == 'checkbox' && $output == 'false' ) {
+					if ( $setting_type == 'checkbox' && $output == false ) {
 						continue;
 					}
 
