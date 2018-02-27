@@ -77,6 +77,8 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 
 		add_filter( $this->slug . '_settings_sanitize_text', array( $this, 'sanitize_text_field' ), 3, 10 );
 		add_filter( $this->slug . '_settings_sanitize_textarea', array( $this, 'sanitize_textarea_field' ), 3, 10 );
+		add_filter( $this->slug . '_settings_sanitize_radio', array( $this, 'sanitize_text_field' ), 3, 10 );
+		add_filter( $this->slug . '_settings_sanitize_select', array( $this, 'sanitize_text_field' ), 3, 10 );
 		add_filter( $this->slug . '_settings_sanitize_multiselect', array( $this, 'sanitize_multiple_field' ), 3, 10 );
 		add_filter( $this->slug . '_settings_sanitize_multicheckbox', array( $this, 'sanitize_multiple_field' ), 3, 10 );
 		add_filter( $this->slug . '_settings_sanitize_file', array( $this, 'sanitize_file_field' ), 3, 10 );
@@ -208,6 +210,10 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 					$setting_type = $setting['type'];
 					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting_type, $settings_received[ $setting['id'] ], $this->errors, $setting );
 					$output       = apply_filters( $this->slug . '_settings_sanitize_' . $setting['id'], $output, $this->errors, $setting );
+
+					if ( $setting_type == 'checkbox' && $output == 'false' ) {
+						continue;
+					}
 
 					// Add the option to the list of ones that we need to save.
 					if ( ! empty( $output ) && ! is_wp_error( $output ) ) {
