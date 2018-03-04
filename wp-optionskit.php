@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * @author     Alessandro Tesoro
- * @version    1.0.2
+ * @version    1.0.3
  * @copyright  (c) 2018 Alessandro Tesoro
  * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  * @package    wp-optionskit
@@ -34,7 +34,7 @@ if ( ! class_exists( 'TDP\OptionsKit' ) ) {
 		 *
 		 * @var string
 		 */
-		private $version = '1.0.2';
+		private $version = '1.0.3';
 
 		/**
 		 * The slug of the options panel.
