@@ -153,6 +153,8 @@ export default {
 				value.forEach(function(element) {
 					savedValue.push(element.value)
 				})
+			} else {
+				savedValue = savedValue.value
 			}
 
             this.$emit('input', savedValue )
