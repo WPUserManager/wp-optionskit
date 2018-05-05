@@ -106,9 +106,9 @@ export default {
          */
         const retrievedValue = this.$optionsKitSettings.options[ this.field.id ]
         const fieldOptions   = this.field.options
-        const currentValue   = []
+		const currentValue   = []
 
-        if( retrievedValue instanceof Array ) {
+		if( retrievedValue instanceof Array ) {
             retrievedValue.forEach(function(entry) {
                 let result = fieldOptions.filter(function( obj ) {
                     return obj.value == entry
@@ -118,7 +118,9 @@ export default {
                     value: result[0].value
                 })
             })
-            this.selected = currentValue
+			this.selected = currentValue
+		} else if( retrievedValue == '' ) {
+			this.selected = null
 		} else {
 			let result = fieldOptions.filter(function( obj ) {
                 return obj.value == retrievedValue
@@ -162,6 +164,8 @@ export default {
 				value.forEach(function(element) {
 					savedValue.push(element.value)
 				})
+			} else if( savedValue === null ) {
+				savedValue = null
 			} else {
 				savedValue = savedValue.value
 			}
