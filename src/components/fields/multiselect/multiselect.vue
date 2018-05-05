@@ -75,6 +75,9 @@
 			border-color: #0085ba transparent transparent
 		}
 	}
+	.multiselect__single {
+		background: transparent;
+	}
 }
 </style>
 
