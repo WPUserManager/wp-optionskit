@@ -100,15 +100,15 @@ export default {
         options: this.field.options
       }
     },
-    created() {
+    mounted() {
         /**
          * Preselect any stored value for this field.
          */
         const retrievedValue = this.$optionsKitSettings.options[ this.field.id ]
-        const fieldOptions = this.field.options
-        const currentValue = []
+        const fieldOptions   = this.field.options
+        const currentValue   = []
 
-        if( retrievedValue ) {
+        if( retrievedValue instanceof Array ) {
             retrievedValue.forEach(function(entry) {
                 let result = fieldOptions.filter(function( obj ) {
                     return obj.value == entry
@@ -119,7 +119,16 @@ export default {
                 })
             })
             this.selected = currentValue
-        }
+		} else {
+			let result = fieldOptions.filter(function( obj ) {
+                return obj.value == retrievedValue
+			})
+			currentValue.push({
+                label: result[0].label,
+                value: result[0].value
+			})
+			this.selected = currentValue
+		}
     },
     methods: {
 		/**
