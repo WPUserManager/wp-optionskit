@@ -1,12 +1,12 @@
 # wp-optionskit
 
-![Packagist](https://img.shields.io/packagist/dt/alessandrotesoro/wp-optionskit.svg) ![Packagist3](https://img.shields.io/packagist/v/alessandrotesoro/wp-optionskit.svg) ![Packagist2](https://img.shields.io/packagist/l/alessandrotesoro/wp-optionskit.svg) ![PHP from Packagist](https://img.shields.io/packagist/php-v/alessandrotesoro/wp-optionskit.svg) ![Github commits (since latest release)](https://img.shields.io/github/commits-since/alessandrotesoro/wp-optionskit/latest.svg)
+![Packagist](https://img.shields.io/packagist/dt/wp-user-manager/wp-optionskit.svg) ![Packagist3](https://img.shields.io/packagist/v/wp-user-manager/wp-optionskit.svg) ![Packagist2](https://img.shields.io/packagist/l/wp-user-manager/wp-optionskit.svg) ![PHP from Packagist](https://img.shields.io/packagist/php-v/wp-user-manager/wp-optionskit.svg) ![Github commits (since latest release)](https://img.shields.io/github/commits-since/wp-user-manager/wp-optionskit/latest.svg)
 
 > A toolkit for developers to create administration options panels for WordPress powered by Vuejs
 
 ## Usage
 
-[Documentation can be found inside the wiki.](https://github.com/alessandrotesoro/wp-optionskit/wiki/1.-Home)
+[Documentation can be found inside the wiki.](https://github.com/wp-user-manager/wp-optionskit/wiki/1.-Home)
 
 ## Build Setup
 
