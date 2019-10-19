@@ -1,7 +1,7 @@
 <template>
 	<div class="optionskit-form-wrapper">
 		<table class="form-table">
-			<tr v-for="field in fields" :key="field.id" :class="{ 'has-error': form.errors.has(field.id) }">
+			<tr v-for="field in fields" :key="field.id" :class="{ 'has-error': form.errors.has(field.id) }" v-show="! field.toggle || model[field.toggle.key] == field.toggle.value">
 				<th scope="row">
 					<label :for="field.id">{{field.name}}</label>
 				</th>
