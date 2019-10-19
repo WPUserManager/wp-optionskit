@@ -1,11 +1,11 @@
 {
-	"name": "alessandrotesoro/wp-optionskit",
+	"name": "wp-user-manager/wp-optionskit",
 	"license": "GPL-3.0-or-later",
 	"description": "A toolkit for developers to create administration options panels for WordPress powered by Vuejs",
 	"homepage": "https://github.com/alessandrotesoro/wp-optionskit/",
 	"authors": [{
-		"name": "Alessandro Tesoro",
-		"homepage": "http://alessandrotesoro.me"
+		"name": "WP User Manager",
+		"homepage": "https://wpusermanager.com/"
 	}],
 	"keywords": [
 		"wordpress",
