@@ -106,12 +106,13 @@ class WPOK_Rest_Server extends \WP_Rest_Controller {
 	/**
 	 * Detect if the user can submit options.
 	 *
-	 * @return void
+	 * @return bool|\WP_Error
 	 */
 	public function get_options_permission() {
-		if ( ! current_user_can( 'install_themes' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return new \WP_Error( 'rest_forbidden', 'WPOK: Permission Denied.', array( 'status' => 401 ) );
 		}
+
 		return true;
 	}
 
