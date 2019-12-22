@@ -7,6 +7,7 @@ import VueFormitFields from 'vue-formit-fields'
 import WPNotice from 'vue-wp-notice'
 import UploadField from './components/fields/upload-field'
 import MultiselectField from './components/fields/multiselect'
+import AnchorField from './components/fields/anchor'
 
 Vue.use(VueFormitFields)
 Vue.use(WPNotice)
@@ -14,6 +15,7 @@ Vue.use(WPNotice)
 // Load custom fields from this app.
 Vue.component('formit-file', UploadField)
 Vue.component('formit-multiselect', MultiselectField)
+Vue.component('formit-anchor', AnchorField)
 
 Vue.config.productionTip = false
 // Import options panel configuration.
