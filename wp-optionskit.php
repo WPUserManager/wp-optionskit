@@ -253,19 +253,18 @@ if ( ! class_exists( 'TDP\OptionsKit' ) ) {
 		 * The class will be used to adjust the layout.
 		 *
 		 * @param string $classes
-		 * @return void
+		 *
+		 * @return string
 		 */
 		public function admin_body_class( $classes ) {
-
 			$screen = get_current_screen();
 			$check  = $this->slug . '-settings';
 
 			if ( preg_match( "/{$check}/", $screen->base ) ) {
-				$classes .= 'optionskit-panel-page';
+				$classes .= ' optionskit-panel-page';
 			}
 
 			return $classes;
-
 		}
 
 		/**
