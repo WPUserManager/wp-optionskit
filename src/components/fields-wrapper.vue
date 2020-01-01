@@ -1,7 +1,7 @@
 <template>
 	<div class="optionskit-form-wrapper">
 		<table class="form-table">
-			<tr v-for="field in fields" :key="field.id" :class="{ 'has-error': form.errors.has(field.id) }" v-show="! field.toggle || model[field.toggle.key] == field.toggle.value">
+			<tr v-for="field in fields" :key="field.id" :class="{ 'has-error': form.errors.has(field.id) }" v-show="maybeShowField(field)">
 				<th scope="row">
 					<label :for="field.id">{{field.name}}</label>
 				</th>
@@ -34,6 +34,29 @@ export default {
 		form: {}
 	},
 	methods: {
+		maybeShowField( field ) {
+			if ( !field.toggle ) {
+				return true;
+			}
+
+			var toggleData = field.toggle;
+
+			if(!(toggleData instanceof Array)){
+				toggleData = [toggleData];
+			}
+
+			var show = true;
+
+			for ( var i = 0; i < toggleData.length; i++ ) {
+				var toggleItem = toggleData[i];
+				if ( this.model[ toggleItem.key ] != toggleItem.value ) {
+					return false;
+				}
+			}
+
+			return show;
+		},
+
 		/**
 		 * Setup classes for the component based on the field type.
 		 */
