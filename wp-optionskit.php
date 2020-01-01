@@ -149,7 +149,7 @@ if ( ! class_exists( 'TDP\OptionsKit' ) ) {
 		 */
 		private function hooks() {
 
-			add_action( 'admin_menu', array( $this, 'add_settings_page' ), 10 );
+			add_action( 'admin_menu', array( $this, 'add_settings_page' ), apply_filters( $this->func . '_admin_menu_priority', 10 ) );
 			add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 100 );
 			add_action( 'rest_api_init', array( $this, 'register_rest_controller' ) );
