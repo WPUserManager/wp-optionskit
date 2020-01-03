@@ -1,6 +1,6 @@
 {
   "name": "wp-optionskit",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "A toolkit for developers to create administration options panels for WordPress powered by Vuejs",
   "author": "WP User Manager",
   "private": true,
