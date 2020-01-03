@@ -395,14 +395,13 @@ if ( ! class_exists( 'TDP\OptionsKit' ) ) {
 		 * @return mixed
 		 */
 		private function get_option( $key = '', $default = false ) {
+			$option_key = $this->func . '_options';
+			$options    = $GLOBALS[ $option_key ];
 
-			global ${$this->func . '_options'};
-
-			$value = ! empty( ${$this->func . '_options'}[ $key ] ) ? ${$this->func . '_options'}[ $key ] : $default;
+			$value = ! empty( $options[ $key ] ) ? $options[ $key ] : $default;
 			$value = apply_filters( $this->func . '_get_option', $value, $key, $default );
 
 			return apply_filters( $this->func . '_get_option_' . $key, $value, $key, $default );
-
 		}
 
 		/**
