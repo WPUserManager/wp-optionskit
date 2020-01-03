@@ -1,5 +1,7 @@
 .DS_Store
 node_modules/
+/vendor
+composer.lock
 dist/index.html
 npm-debug.log*
 yarn-debug.log*

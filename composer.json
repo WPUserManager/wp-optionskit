@@ -20,5 +20,9 @@
 	},
 	"autoload": {
 		"classmap": ["wp-optionskit.php"]
+	},
+	"require-dev": {
+		"phpcompatibility/php-compatibility": "^9.3",
+		"dealerdirect/phpcodesniffer-composer-installer": "^0.5.0"
 	}
 }
