@@ -119,7 +119,7 @@ export default {
 
 			this.form.submit(
 				'post',
-				this.$optionsKitSettings.rest_url + 'records',
+				this.$optionsKitSettings.rest_url + 'records/',
 				this.model,
 				this.$optionsKitSettings.nonce
 			)
