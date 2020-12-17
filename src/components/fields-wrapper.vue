@@ -7,7 +7,7 @@
 				</th>
 				<td>
 					<component v-bind:is="getFieldComponentName(field.type)" :field="field" :class="classes(field.type)" v-model="model[field.id]"></component>
-					<p class="description" v-if="field.desc">{{field.desc}}</p>
+					<p class="description" v-if="field.desc" v-html="field.desc"></p>
 					<!-- Display the error message for this specific field -->
 					<wp-notice type="error" v-show="form.errors.has(field.id)" alternative><strong>{{form.errors.get(field.id)}}</strong></wp-notice>
 				</td>
