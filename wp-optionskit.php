@@ -275,7 +275,6 @@ if ( ! class_exists( 'TDP\OptionsKit' ) ) {
 		public function enqueue_scripts() {
 
 			$path = plugin_dir_url( __FILE__ );
-			$path = str_replace( 'Users/igp/sites/wpum/wp-optionskit/', 'wp-user-manager/vendor/wp-user-manager/wp-optionskit/', $path);
 
 			if ( $this->is_options_page() ) {
 
