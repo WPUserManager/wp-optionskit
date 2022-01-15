@@ -8,6 +8,7 @@ import WPNotice from 'vue-wp-notice'
 import UploadField from './components/fields/upload-field'
 import MultiselectField from './components/fields/multiselect'
 import AnchorField from './components/fields/anchor'
+import HiddenField from './components/fields/hidden'
 
 Vue.use(VueFormitFields)
 Vue.use(WPNotice)
@@ -16,6 +17,7 @@ Vue.use(WPNotice)
 Vue.component('formit-file', UploadField)
 Vue.component('formit-multiselect', MultiselectField)
 Vue.component('formit-anchor', AnchorField)
+Vue.component('formit-hidden', HiddenField)
 
 Vue.config.productionTip = false
 // Import options panel configuration.

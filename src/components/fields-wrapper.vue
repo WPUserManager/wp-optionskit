@@ -35,6 +35,10 @@ export default {
 	},
 	methods: {
 		maybeShowField( field ) {
+			if ( field.type === 'hidden' ) {
+				return false;
+			}
+
 			if ( !field.toggle ) {
 				return true;
 			}
