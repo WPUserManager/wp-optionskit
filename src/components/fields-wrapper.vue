@@ -51,9 +51,24 @@ export default {
 
 			var show = true;
 
+			var operators = {
+				'!=': function(a, b) { return a != b },
+				'!==': function(a, b) { return a !== b },
+				'==': function(a, b) { return a == b },
+				'===': function(a, b) { return a === b },
+				'>=': function(a, b) { return a >= b },
+				'>': function(a, b) { return a > b },
+				'<=': function(a, b) { return a <= b },
+			};
+
 			for ( var i = 0; i < toggleData.length; i++ ) {
 				var toggleItem = toggleData[i];
-				if ( this.model[ toggleItem.key ] != toggleItem.value ) {
+				var operator = '!=';
+				if ( toggleItem.hasOwnProperty('operator') ) {
+					operator = toggleItem.operator;
+				}
+
+				if ( operators[operator](this.model[ toggleItem.key ], toggleItem.value) ) {
 					return false;
 				}
 			}
