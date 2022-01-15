@@ -279,7 +279,8 @@ if ( ! class_exists( 'TDP\OptionsKit' ) ) {
 			if ( $this->is_options_page() ) {
 
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true && defined( 'OPK_DEBUG' ) && OPK_DEBUG === true ) {
-					wp_enqueue_script( $this->func . '_opk', 'http://localhost:8080/app.js', array(), false, true );
+					$vue_dev_port = defined( 'OPK_VUE_DEV_PORT' ) ? OPK_VUE_DEV_PORT : '8080';
+					wp_enqueue_script( $this->func . '_opk', 'http://localhost:' . $vue_dev_port .'/app.js', array(), false, true );
 				} else {
 					wp_enqueue_script( $this->func . '_opk2', $path . 'dist/static/js/manifest.js', array(), false, true );
 					wp_enqueue_script( $this->func . '_opk', $path . 'dist/static/js/vendor.js', array(), false, true );
