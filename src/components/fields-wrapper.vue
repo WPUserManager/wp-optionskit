@@ -59,6 +59,8 @@ export default {
 				'>=': function(a, b) { return a >= b },
 				'>': function(a, b) { return a > b },
 				'<=': function(a, b) { return a <= b },
+				'in': function(a,b) { return ! a.includes(b) },
+				'not in': function(a,b) { return a.includes(b) }
 			};
 
 			for ( var i = 0; i < toggleData.length; i++ ) {
