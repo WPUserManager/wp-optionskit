@@ -116,10 +116,12 @@ export default {
                 let result = fieldOptions.filter(function( obj ) {
                     return obj.value == entry
                 })
-                currentValue.push({
-                    label: result[0].label,
-                    value: result[0].value
-                })
+				if ( result.length ) {
+					currentValue.push( {
+						label: result[ 0 ].label,
+						value: result[ 0 ].value
+					} )
+				}
             })
 			this.selected = currentValue
 		} else if( retrievedValue == '' ) {
@@ -128,10 +130,12 @@ export default {
 			let result = fieldOptions.filter(function( obj ) {
                 return obj.value == retrievedValue
 			})
-			currentValue.push({
-                label: result[0].label,
-                value: result[0].value
-			})
+			if ( result.length ) {
+				currentValue.push( {
+					label: result[ 0 ].label,
+					value: result[ 0 ].value
+				} )
+			}
 			this.selected = currentValue
 		}
     },
